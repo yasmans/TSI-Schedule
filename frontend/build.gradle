@@ -1,0 +1,12 @@
+group 'lv.tsi.schedule'
+version 'unspecified'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

@@ -1,0 +1,5 @@
+rootProject.name = "TSI Schedule"
+include 'data-parser'
+include 'frontend'
+include 'calendar-service'
+
