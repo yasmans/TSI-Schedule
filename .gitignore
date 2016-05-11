@@ -16,5 +16,6 @@ hs_err_pid*
 
 # Gradle configs
 .gradle/
+**/build/
 gradlew.bat
 gradle-wrapper.properties
