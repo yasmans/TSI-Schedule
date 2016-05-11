@@ -1,12 +1,19 @@
 group 'lv.tsi.schedule'
-version 'unspecified'
+version '0.1-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'spring-boot'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    // Spring framework
+    compile("org.springframework.boot:spring-boot-starter-web")
+
+    // JUnit and Mockito testing libraries
+    testCompile "junit:junit:4.12"
+    testCompile "org.mockito:mockito-core:1.+"
 }
