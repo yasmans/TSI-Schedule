@@ -1,20 +1,34 @@
 package lv.tsi.schedule.api;
 
-import lv.tsi.schedule.domain.Teacher;
+import lv.tsi.schedule.domain.ReferenceData;
+import lv.tsi.schedule.service.DataService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ReferenceDataRestController {
 
-    @RequestMapping("/greeting")
-    public String greeting(@RequestParam(value = "name", defaultValue = "Janka") String name) {
-        return "Hello " + name;
+    private DataService dataService;
+
+    @RequestMapping(value = "/referenceData", method = RequestMethod.GET)
+    public Map<String, List<ReferenceData>> getReferenceData(
+            @RequestParam(value = "lang", defaultValue = "en") String lang,
+            @RequestParam(value = "type") String[] types) {
+
+        //TODO: Validate input
+
+        Map<String, List<ReferenceData>> referenceData = dataService.getReferenceData(lang, types);
+        return referenceData;
     }
 
-    @RequestMapping("/teacher")
-    public Teacher getReferenceData() {
-        return new Teacher();
+    @Autowired
+    public void setDataService(DataService dataService) {
+        this.dataService = dataService;
     }
 }
