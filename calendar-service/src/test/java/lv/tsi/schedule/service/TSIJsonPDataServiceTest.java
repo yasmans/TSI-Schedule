@@ -8,9 +8,9 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class DummyDataServiceTest {
+public class TSIJsonPDataServiceTest {
 
-    private DummyDataService dataService = new DummyDataService();
+    private TSIJsonPDataService dataService = new TSIJsonPDataService();
 
     @Test
     public void convertJsonPToJsonString() throws Exception {
@@ -21,7 +21,7 @@ public class DummyDataServiceTest {
 
     @Test
     public void name() throws Exception {
-        Map<String, List<ReferenceData>> data = dataService.getReferenceData("lv", new String[]{"classes"});
+        Map<String, List<ReferenceData>> data = dataService.getReferenceData("lv", new String[]{"groups"});
         assertNull(data);
 
     }

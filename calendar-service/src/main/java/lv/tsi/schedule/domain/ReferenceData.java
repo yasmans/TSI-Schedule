@@ -1,9 +1,14 @@
 package lv.tsi.schedule.domain;
 
-public abstract class ReferenceData {
+public class ReferenceData {
 
     private Integer id;
     private String name;
+
+    public ReferenceData(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;

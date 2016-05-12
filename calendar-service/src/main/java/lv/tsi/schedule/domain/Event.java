@@ -10,9 +10,9 @@ public class Event {
     private String comment;
     private String type;
     private Date time;
-    private Set<Teacher> teachers;
-    private Set<Room> rooms;
-    private Set<Group> groups;
+    private Set<ReferenceData> teachers;
+    private Set<ReferenceData> rooms;
+    private Set<ReferenceData> groups;
 
     public Integer getId() {
         return id;
@@ -54,27 +54,27 @@ public class Event {
         this.time = time;
     }
 
-    public Set<Teacher> getTeachers() {
+    public Set<ReferenceData> getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(Set<Teacher> teachers) {
+    public void setTeachers(Set<ReferenceData> teachers) {
         this.teachers = teachers;
     }
 
-    public Set<Room> getRooms() {
+    public Set<ReferenceData> getRooms() {
         return rooms;
     }
 
-    public void setRooms(Set<Room> rooms) {
+    public void setRooms(Set<ReferenceData> rooms) {
         this.rooms = rooms;
     }
 
-    public Set<Group> getGroups() {
+    public Set<ReferenceData> getGroups() {
         return groups;
     }
 
-    public void setGroups(Set<Group> groups) {
+    public void setGroups(Set<ReferenceData> groups) {
         this.groups = groups;
     }
 }
