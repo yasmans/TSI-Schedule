@@ -13,6 +13,7 @@ hs_err_pid*
 
 # Intellij Idea
 .idea
+.iml
 
 # Gradle configs
 .gradle/
