@@ -11,7 +11,8 @@ repositories {
 dependencies {
 
     // Spring framework
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework:spring-test:4.2.6.RELEASE"
 
     // JUnit and Mockito testing libraries
     testCompile "junit:junit:4.12"

@@ -52,10 +52,10 @@ public class TSIEventAPIDataService implements DataService {
     }
 
     protected String convertJsonPToJsonString(String jsonP) {
-        // Strip all JSONP stuff and other junk
         if (jsonP == null || jsonP.isEmpty() || jsonP.length() < 13) {
             return "";
         }
+        // Strip all JSONP stuff and other junk
         return jsonP.substring(10, jsonP.length() - 3)
                 .replace("\\", "")
                 .replace(")foo(", "");

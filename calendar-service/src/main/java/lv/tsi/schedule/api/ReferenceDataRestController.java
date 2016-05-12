@@ -22,6 +22,7 @@ public class ReferenceDataRestController {
             @RequestParam(value = "type", required = false) String[] types) {
 
         //TODO: Validate input
+        //TODO: Write tests for validation and exception handling
 
         return dataService.getReferenceData(lang, types);
     }
