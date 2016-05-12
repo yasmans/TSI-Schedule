@@ -19,12 +19,11 @@ public class ReferenceDataRestController {
     @RequestMapping(value = "/referenceData", method = RequestMethod.GET)
     public Map<String, List<ReferenceData>> getReferenceData(
             @RequestParam(value = "lang", defaultValue = "en") String lang,
-            @RequestParam(value = "type") String[] types) {
+            @RequestParam(value = "type", required = false) String[] types) {
 
         //TODO: Validate input
 
-        Map<String, List<ReferenceData>> referenceData = dataService.getReferenceData(lang, types);
-        return referenceData;
+        return dataService.getReferenceData(lang, types);
     }
 
     @Autowired
