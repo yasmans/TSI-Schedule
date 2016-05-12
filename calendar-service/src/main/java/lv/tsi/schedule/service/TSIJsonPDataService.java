@@ -1,7 +1,9 @@
 package lv.tsi.schedule.service;
 
 import lv.tsi.schedule.domain.ReferenceData;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class TSIJsonPDataService implements DataService {
 
-    private String referenceDataURL = "http://services.tsi.lv/schedule/api/service.asmx/GetItems2?lang=\"{lang}\"&type=\"{type}\"&callback=foo";
+    private String referenceDataURL;
 
     @Override
     public Map<String, List<ReferenceData>> getReferenceData(String lang, String[] types) {
@@ -47,5 +49,10 @@ public class TSIJsonPDataService implements DataService {
         return jsonP.substring(10, jsonP.length() - 3)
                 .replace("\\", "")
                 .replace(")foo(", "");
+    }
+
+    @Value("${tsi.referencedata.url}")
+    public void setReferenceDataURL(String referenceDataURL) {
+        this.referenceDataURL = referenceDataURL;
     }
 }
