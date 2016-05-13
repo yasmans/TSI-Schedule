@@ -1,18 +1,29 @@
 package lv.tsi.schedule.domain;
 
-import java.util.Date;
-import java.util.Set;
-
 public class Event {
 
+    private static final String DELIMITER = ", ";
     private Integer id;
     private String name;
     private String comment;
     private String type;
-    private Date time;
-    private Set<ReferenceData> teachers;
-    private Set<ReferenceData> rooms;
-    private Set<ReferenceData> groups;
+    private long timestamp;
+    private String teacher;
+    private String rooms;
+    private String groups;
+
+    public Event() {
+    }
+
+    public Event(Integer id, String name, String comment, long timestamp, String teacher, String rooms, String groups) {
+        this.id = id;
+        this.name = name;
+        this.comment = comment;
+        this.timestamp = timestamp;
+        this.teacher = teacher;
+        this.rooms = rooms;
+        this.groups = groups;
+    }
 
     public Integer getId() {
         return id;
@@ -46,35 +57,55 @@ public class Event {
         this.type = type;
     }
 
-    public Date getTime() {
-        return time;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public Set<ReferenceData> getTeachers() {
-        return teachers;
+    public String getTeacher() {
+        return teacher;
     }
 
-    public void setTeachers(Set<ReferenceData> teachers) {
-        this.teachers = teachers;
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
-    public Set<ReferenceData> getRooms() {
+    public String getRooms() {
         return rooms;
     }
 
-    public void setRooms(Set<ReferenceData> rooms) {
+    public void setRooms(String rooms) {
         this.rooms = rooms;
     }
 
-    public Set<ReferenceData> getGroups() {
+    public String getGroups() {
         return groups;
     }
 
-    public void setGroups(Set<ReferenceData> groups) {
+    public void setGroups(String groups) {
         this.groups = groups;
+    }
+
+    public String getSummary() {
+        StringBuilder sb = new StringBuilder();
+        if (rooms != null && !rooms.isEmpty()) {
+            sb.append(rooms);
+        }
+        if (teacher != null && !teacher.isEmpty()) {
+            if (sb.length() > 0) {
+                sb.append(DELIMITER);
+            }
+            sb.append(teacher);
+        }
+        if (groups != null && !groups.isEmpty()) {
+            if (sb.length() > 0) {
+                sb.append(DELIMITER);
+            }
+            sb.append(groups);
+        }
+        return sb.toString();
     }
 }

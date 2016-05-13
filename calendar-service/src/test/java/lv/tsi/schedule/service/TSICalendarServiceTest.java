@@ -1,0 +1,55 @@
+package lv.tsi.schedule.service;
+
+import lv.tsi.schedule.domain.Event;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.component.VEvent;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class TSICalendarServiceTest {
+
+    private TSICalendarService calendarService = new TSICalendarService();
+    private DataService dataService = mock(DataService.class);
+
+    public static final String EMPTY_CALENDAR = "BEGIN:VCALENDAR\n" +
+            "PRODID:-//TSI//Calendar Service//\n" +
+            "VERSION:2.0\n" +
+            "CALSCALE:GREGORIAN\n" +
+            "END:VCALENDAR\n";
+
+    @Test
+    public void testGetCalendar() throws Exception {
+        calendarService.setDataService(dataService);
+        List<Event> eventList = new ArrayList<>();
+        when(dataService.getEvents(anyLong(), anyLong(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class), anyListOf(Integer.class)))
+                .thenReturn(eventList);
+        Calendar calendar = calendarService.getCalendar(1L, 12L, "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        assertEquals("Service did not return any events so empty calendar should be returned", EMPTY_CALENDAR, calendar.toString().replace("\r\n", "\n"));
+
+        //TODO: Test Good calendar with two events
+    }
+
+    @Test
+    public void testCreateEvent() throws Exception {
+        Event event = new Event(33, "Lokālie datortīkli", "", 1463142500, "Ivars Holcs", "L3", "4102BNL, 41344LN");
+        VEvent vEvent = calendarService.createEvent(event);
+        assertNotNull(vEvent);
+    }
+
+    @Test
+    public void testCreateCalendar() throws Exception {
+        Calendar calendar = calendarService.createCalendar();
+        assertEquals("Calendar must contain ID", "-//TSI//Calendar Service//", calendar.getProductId().getValue());
+        assertEquals("Empty calendar with basic properties should be generated", EMPTY_CALENDAR,
+                calendar.toString().replace("\r\n", "\n"));
+    }
+}
