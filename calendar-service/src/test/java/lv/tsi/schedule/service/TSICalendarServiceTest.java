@@ -27,14 +27,15 @@ public class TSICalendarServiceTest {
             "CALSCALE:GREGORIAN\n" +
             "END:VCALENDAR\n";
     public static final String EXAMPLE_EVENT = "BEGIN:VEVENT\n" +
+            "DTSTAMP:19700117T222555Z\n" +
             "UID:54325\n" +
-            "DTSTAMP:20160513T145949Z\n" +
-            "DTSTART:20160513T061500Z\n" +
-            "DTEND:20160513T173000Z\n" +
-            "SUMMARY:L3 Laboratorijas darbs Ivars Holcs\n" +
+            "DTSTART:19700118T002542\n" +
+            "DTEND:19700118T015542\n" +
+            "SUMMARY:L3 | Ivars Holcs | Laboratorijas darbs | 4102BNL 41344LN | nav atcelts\n" +
             "LOCATION:L3\n" +
+            "CATEGORIES:normal\n" +
             "DESCRIPTION:nav atcelts\n" +
-            "END:VEVENT";
+            "END:VEVENT\n";
 
     @Test
     public void testGetCalendar() throws Exception {
@@ -50,20 +51,10 @@ public class TSICalendarServiceTest {
 
     @Test
     public void testCreateEvent() throws Exception {
-        /*
-            BEGIN:VEVENT
-            UID:54325
-            DTSTAMP:20160513T145949Z
-            DTSTART:20160513T061500Z
-            DTEND:20160513T173000Z
-            SUMMARY:L3 Laboratorijas darbs Ivars Holcs
-            LOCATION:L3
-            DESCRIPTION:nav atcelts
-            END:VEVENT
-         */
         calendarService.setApplicationTimeService(applicationTimeService);
         when(applicationTimeService.getCurrentTimestamp()).thenReturn(1463155522L);
-        Event event = new Event(54325, "Laboratorijas darbs", "nav atcelts", 1463142500, "Ivars Holcs", "L3", "4102BNL, 41344LN");
+        Event event = new Event(54325, "Laboratorijas darbs", "nav atcelts", 1463142500, "Ivars Holcs", "L3", "4102BNL 41344LN");
+        event.setType("normal");
         VEvent vEvent = calendarService.createEvent(event);
         assertNotNull(vEvent);
         assertEquals(EXAMPLE_EVENT, vEvent.toString().replace("\r\n", "\n"));

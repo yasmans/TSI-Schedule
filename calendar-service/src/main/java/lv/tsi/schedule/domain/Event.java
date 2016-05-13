@@ -2,7 +2,7 @@ package lv.tsi.schedule.domain;
 
 public class Event {
 
-    private static final String DELIMITER = ", ";
+    private static final String DELIMITER = " | ";
     private Integer id;
     private String name;
     private String comment;
@@ -100,11 +100,23 @@ public class Event {
             }
             sb.append(teacher);
         }
+        if (name != null && !name.isEmpty()) {
+            if (sb.length() > 0) {
+                sb.append(DELIMITER);
+            }
+            sb.append(name);
+        }
         if (groups != null && !groups.isEmpty()) {
             if (sb.length() > 0) {
                 sb.append(DELIMITER);
             }
             sb.append(groups);
+        }
+        if (comment != null && !comment.isEmpty()) {
+            if (sb.length() > 0) {
+                sb.append(DELIMITER);
+            }
+            sb.append(comment);
         }
         return sb.toString();
     }

@@ -21,7 +21,7 @@ public class TSIEventAPIDataService implements DataService {
     public static final String PARAM_TEACHERS = "teachers";
     public static final String PARAM_ROOMS = "rooms";
     public static final String PARAM_GROUPS = "groups";
-    public static final String DELIMITER = ", ";
+    public static final String DELIMITER = " ";
     public static final String EVENTS = "events";
     public static final String EVENT_ID = "id";
     public static final String EVENT_NAME = "name";
@@ -140,8 +140,8 @@ public class TSIEventAPIDataService implements DataService {
         return teachers.getOrDefault(teacherId, getDefaultValue(teacherId));
     }
 
-    protected String getDefaultValue(Integer onjectId) {
-        return "[id:" + onjectId + "]";
+    protected String getDefaultValue(Integer objectId) {
+        return "[id:" + objectId + "]";
     }
 
     protected Map<String, Map<Integer, String>> getAllReferenceDataAsMap() {

@@ -34,17 +34,18 @@ public class TSICalendarService implements CalendarService {
     }
 
     protected VEvent createEvent(Event event) {
-        Date startDate = new Date(event.getTimestamp());
-        Date endDate = new Date(event.getTimestamp() + MILLISECONDS_FROM_90_MINUTES);
         DateTime currentDate = new DateTime(applicationTimeService.getCurrentTimestamp());
+        DateTime startDate = new DateTime(event.getTimestamp());
+        DateTime endDate = new DateTime(event.getTimestamp() + MILLISECONDS_FROM_90_MINUTES);
         VEvent vEvent = new VEvent();
+        vEvent.getDateStamp().setDateTime(currentDate);
         PropertyList properties = vEvent.getProperties();
         properties.add(new Uid(String.valueOf(event.getId())));
-        properties.add(new DtStamp(currentDate));
         properties.add(new DtStart(startDate));
         properties.add(new DtEnd(endDate));
         properties.add(new Summary(event.getSummary()));
         properties.add(new Location(event.getRooms()));
+        properties.add(new Categories(event.getType()));
         properties.add(new Description(event.getComment()));
         return vEvent;
     }
