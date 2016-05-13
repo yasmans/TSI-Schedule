@@ -14,6 +14,9 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework:spring-test:4.2.6.RELEASE"
 
+    // iCal4j library to work with iCalendar data format
+    compile "org.mnode.ical4j:ical4j:1.+"
+
     // JUnit and Mockito testing libraries
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:1.+"
