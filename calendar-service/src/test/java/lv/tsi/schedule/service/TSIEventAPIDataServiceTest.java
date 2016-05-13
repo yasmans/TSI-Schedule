@@ -81,7 +81,7 @@ public class TSIEventAPIDataServiceTest {
         String groupsByIds = dataService.getGroupsByIds(referenceData, groupIds);
 
         assertEquals("Should return valid result string with two found groups and one not found",
-                "4102BNL, 22JNSDG, [id:443]", groupsByIds);
+                "4102BNL 22JNSDG [id:443]", groupsByIds);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class TSIEventAPIDataServiceTest {
         String roomsByIDs = dataService.getRoomsByIds(referenceData, roomIDs);
 
         assertEquals("Should return valid result string with two found rooms and one not found",
-                "L3, 304, [id:345]", roomsByIDs);
+                "L3 304 [id:345]", roomsByIDs);
     }
 
     @Test
