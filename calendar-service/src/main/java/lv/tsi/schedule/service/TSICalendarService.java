@@ -1,26 +1,24 @@
 package lv.tsi.schedule.service;
 
 import lv.tsi.schedule.domain.Event;
+import net.fortuna.ical4j.model.*;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
-import net.fortuna.ical4j.model.Dur;
 import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.CalScale;
-import net.fortuna.ical4j.model.property.Location;
-import net.fortuna.ical4j.model.property.ProdId;
-import net.fortuna.ical4j.model.property.Version;
+import net.fortuna.ical4j.model.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class TSICalendarService implements CalendarService {
 
     public static final String TSI_CALENDAR_SERVICE = "-//TSI//Calendar Service//";
+    public static final long MILLISECONDS_FROM_90_MINUTES = 90 * 60 * 1000;
     private DataService dataService;
+    private ApplicationTimeService applicationTimeService;
 
     public Calendar getCalendar(Long from, Long to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
         List<Event> events = dataService.getEvents(from, to, lang, teachers, rooms, groups);
@@ -36,11 +34,18 @@ public class TSICalendarService implements CalendarService {
     }
 
     protected VEvent createEvent(Event event) {
-        //TODO: This should be reconsidered and formatted properly
-        Dur lessonDuration = new Dur(0, 0, 45, 0);
         Date startDate = new Date(event.getTimestamp());
-        VEvent vEvent = new VEvent(startDate, lessonDuration, event.getSummary());
-        vEvent.getProperties().add(new Location(event.getRooms()));
+        Date endDate = new Date(event.getTimestamp() + MILLISECONDS_FROM_90_MINUTES);
+        DateTime currentDate = new DateTime(applicationTimeService.getCurrentTimestamp());
+        VEvent vEvent = new VEvent();
+        PropertyList properties = vEvent.getProperties();
+        properties.add(new Uid(String.valueOf(event.getId())));
+        properties.add(new DtStamp(currentDate));
+        properties.add(new DtStart(startDate));
+        properties.add(new DtEnd(endDate));
+        properties.add(new Summary(event.getSummary()));
+        properties.add(new Location(event.getRooms()));
+        properties.add(new Description(event.getComment()));
         return vEvent;
     }
 
@@ -55,5 +60,10 @@ public class TSICalendarService implements CalendarService {
     @Autowired
     public void setDataService(DataService dataService) {
         this.dataService = dataService;
+    }
+
+    @Autowired
+    public void setApplicationTimeService(ApplicationTimeService applicationTimeService) {
+        this.applicationTimeService = applicationTimeService;
     }
 }
