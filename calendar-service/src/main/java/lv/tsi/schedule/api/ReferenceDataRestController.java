@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static lv.tsi.schedule.validator.ParameterValidator.validateLanguage;
+import static lv.tsi.schedule.validator.ParameterValidator.validateReferenceDataType;
 
 @RestController
 public class ReferenceDataRestController {
@@ -28,22 +30,8 @@ public class ReferenceDataRestController {
         return dataService.getReferenceData(lang, types);
     }
 
-    protected String validateRequestParameters(String[] types, String lang) {
-        StringBuilder sb = new StringBuilder();
-        if (!Arrays.asList("lv", "en", "ru").contains(lang)) {
-            sb.append("'").append(lang).append("' is not a valid language. possible values: lv, en, ru.\n");
-        }
-        for (String type : types) {
-            if (!Arrays.asList("all", "groups", "teachers", "rooms").contains(type)) {
-                sb.append("'").append(type).append("' is not a valid type. possible values: all, groups, teachers, rooms.\n");
-            }
-        }
-        return sb.toString();
-    }
-
-    @ExceptionHandler(value = ParameterValidationException.class)
-    public ResponseEntity<String> validationExceptionHandler(ParameterValidationException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    private String validateRequestParameters(String[] types, String lang) {
+        return validateLanguage(lang) + validateReferenceDataType(types);
     }
 
     @Autowired

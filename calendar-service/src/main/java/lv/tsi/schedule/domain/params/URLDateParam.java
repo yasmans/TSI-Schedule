@@ -1,5 +1,7 @@
 package lv.tsi.schedule.domain.params;
 
+import lv.tsi.schedule.exceptions.ParameterValidationException;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +16,7 @@ public class URLDateParam implements Serializable {
         try {
             this.date = dateFormat.parse(dateParam);
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new ParameterValidationException("Cannot parse '" + dateParam + "' expected date format: 'yyyy-MM-dd");
         }
     }
 

@@ -1,16 +1,22 @@
 package lv.tsi.schedule.api;
 
 import lv.tsi.schedule.domain.params.URLDateParam;
+import lv.tsi.schedule.exceptions.ParameterValidationException;
 import lv.tsi.schedule.service.CalendarService;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+
+import static lv.tsi.schedule.validator.ParameterValidator.validateLanguage;
+import static lv.tsi.schedule.validator.ParameterValidator.validateSearchParameters;
 
 @RestController
 public class CalendarRestController {
@@ -25,24 +31,23 @@ public class CalendarRestController {
                             @RequestParam(value = "teachers", required = false) List<Integer> teachers,
                             @RequestParam(value = "rooms", required = false) List<Integer> rooms,
                             @RequestParam(value = "groups", required = false) List<Integer> groups,
-                            HttpServletResponse response) {
+                            HttpServletResponse response) throws IOException, ValidationException {
 
-        /* TODO: validate params
-            from and to must be UNIX timestamps
-            lang must be one of lv|ru|en
-            teachers rooms and groups can consist only from integers
-            there must be specified at least one of teachers rooms and groups
-        */
+        String validationResults = validateParameters(lang, teachers, rooms, groups);
+        if (!validationResults.isEmpty()) {
+            throw new ParameterValidationException(validationResults);
+        }
+
         response.addHeader("Content-disposition", "attachment;filename=calendar.ics");
         response.setContentType("txt/calendar");
 
         Calendar calendar = calendarService.getCalendar(from.getDate(), to.getDate(), lang, teachers, rooms, groups);
-        try {
-            calendarOutputter.output(calendar, response.getOutputStream());
-            response.flushBuffer();
-        } catch (IOException | ValidationException e) {
-            e.printStackTrace();
-        }
+        calendarOutputter.output(calendar, response.getOutputStream());
+        response.flushBuffer();
+    }
+
+    private String validateParameters(String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
+        return validateLanguage(lang) + validateSearchParameters(teachers, rooms, groups);
     }
 
     @Autowired

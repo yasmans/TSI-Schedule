@@ -55,9 +55,10 @@ public class CalendarRestControllerTest {
                 .thenReturn(new Calendar());
 
         // Get calendar for a week from 09-05-2016 to 15-05-2016
-        mockMvc.perform(get("/calendar/1462741200000/1463346000000/lv?teachers=11292,8315,18211"))
+        mockMvc.perform(get("/calendar/2016-05-09/2016-05-15/lv?teachers=11292,8315,18211"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.parseMediaType("txt/calendar")));
-
     }
+
+    //TODO: Test validation
 }
