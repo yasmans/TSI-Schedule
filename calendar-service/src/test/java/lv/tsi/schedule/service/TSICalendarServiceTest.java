@@ -27,33 +27,71 @@ public class TSICalendarServiceTest {
             "CALSCALE:GREGORIAN\n" +
             "END:VCALENDAR\n";
     public static final String EXAMPLE_EVENT = "BEGIN:VEVENT\n" +
-            "DTSTAMP:19700117T222555Z\n" +
+            "DTSTAMP:20160514T120000Z\n" +
             "UID:54325\n" +
-            "DTSTART:19700118T002542\n" +
-            "DTEND:19700118T015542\n" +
-            "SUMMARY:Laboratorijas darbs | L3 | Ivars Holcs | 4102BNL 41344LN | nav atcelts\n" +
+            "DTSTART:20160514T150000\n" +
+            "DTEND:20160514T163000\n" +
+            "SUMMARY:Laboratorijas darbs | Ivars Holcs | 4102BNL 41344LN\n" +
             "LOCATION:L3\n" +
             "CATEGORIES:normal\n" +
             "DESCRIPTION:nav atcelts\n" +
+            "TZID:Europe/Riga\n" +
             "END:VEVENT\n";
+    public static final String CALENDAR_WITH_EVENTS = "BEGIN:VCALENDAR\n" +
+            "PRODID:-//TSI//Calendar Service//\n" +
+            "VERSION:2.0\n" +
+            "CALSCALE:GREGORIAN\n" +
+            "BEGIN:VEVENT\n" +
+            "DTSTAMP:20160514T120000Z\n" +
+            "UID:54325\n" +
+            "DTSTART:20160514T150000\n" +
+            "DTEND:20160514T163000\n" +
+            "SUMMARY:Laboratorijas darbs | Ivars Holcs | 4102BNL 41344LN\n" +
+            "LOCATION:L3\n" +
+            "CATEGORIES:\n" +
+            "DESCRIPTION:nav atcelts\n" +
+            "TZID:Europe/Riga\n" +
+            "END:VEVENT\n" +
+            "BEGIN:VEVENT\n" +
+            "DTSTAMP:20160514T120000Z\n" +
+            "UID:4432\n" +
+            "DTSTART:20160515T113000\n" +
+            "DTEND:20160515T130000\n" +
+            "SUMMARY:Skaitliskās metodes | John Snow | 4102BNL\n" +
+            "LOCATION:304\n" +
+            "CATEGORIES:\n" +
+            "DESCRIPTION:\n" +
+            "TZID:Europe/Riga\n" +
+            "END:VEVENT\n" +
+            "END:VCALENDAR\n";
 
     @Test
     public void testGetCalendar() throws Exception {
+        calendarService.setApplicationTimeService(applicationTimeService);
         calendarService.setDataService(dataService);
+        when(applicationTimeService.getCurrentTimestamp()).thenReturn(1463227200000L);
+
         List<Event> eventList = new ArrayList<>();
         when(dataService.getEvents(anyLong(), anyLong(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class), anyListOf(Integer.class)))
                 .thenReturn(eventList);
-        Calendar calendar = calendarService.getCalendar(1L, 12L, "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        assertEquals("Service did not return any events so empty calendar should be returned", EMPTY_CALENDAR, calendar.toString().replace("\r\n", "\n"));
+        Calendar emptyCalendar = calendarService.getCalendar(1L, 12L, "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        assertEquals("Service did not return any events so empty calendar should be returned", EMPTY_CALENDAR, emptyCalendar.toString().replace("\r\n", "\n"));
 
-        //TODO: Test valid calendar with two events
+        Event firstEvent = new Event(54325, "Laboratorijas darbs", "nav atcelts", 1463227200000L, "Ivars Holcs", "L3", "4102BNL 41344LN");
+        Event secondEvent = new Event(4432, "Skaitliskās metodes", null, 1463301000000L, "John Snow", "304", "4102BNL");
+        eventList.add(firstEvent);
+        eventList.add(secondEvent);
+        Calendar calendar = calendarService.getCalendar(1L, 12L, "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        assertNotNull(calendar);
+        assertEquals(CALENDAR_WITH_EVENTS, calendar.toString().replace("\r\n", "\n"));
+
     }
 
     @Test
     public void testCreateEvent() throws Exception {
         calendarService.setApplicationTimeService(applicationTimeService);
-        when(applicationTimeService.getCurrentTimestamp()).thenReturn(1463155522L);
-        Event event = new Event(54325, "Laboratorijas darbs", "nav atcelts", 1463142500, "Ivars Holcs", "L3", "4102BNL 41344LN");
+        when(applicationTimeService.getCurrentTimestamp()).thenReturn(1463227200000L);
+        Event event = new Event(54325, "Laboratorijas darbs", "nav atcelts", 1463227200000L, "Ivars Holcs", "L3", "4102BNL 41344LN");
         event.setType("normal");
         VEvent vEvent = calendarService.createEvent(event);
         assertNotNull(vEvent);

@@ -26,7 +26,7 @@ public class Event {
     }
 
     public Integer getId() {
-        return id;
+        return id == null ? -1 : id;
     }
 
     public void setId(Integer id) {
@@ -34,7 +34,7 @@ public class Event {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -42,7 +42,7 @@ public class Event {
     }
 
     public String getComment() {
-        return comment;
+        return comment == null ? "" : comment;
     }
 
     public void setComment(String comment) {
@@ -50,7 +50,7 @@ public class Event {
     }
 
     public String getType() {
-        return type;
+        return type == null ? "" : type;
     }
 
     public void setType(String type) {
@@ -66,7 +66,7 @@ public class Event {
     }
 
     public String getTeacher() {
-        return teacher;
+        return teacher == null ? "" : teacher;
     }
 
     public void setTeacher(String teacher) {
@@ -74,7 +74,7 @@ public class Event {
     }
 
     public String getRooms() {
-        return rooms;
+        return rooms == null ? "" : rooms;
     }
 
     public void setRooms(String rooms) {
@@ -82,7 +82,7 @@ public class Event {
     }
 
     public String getGroups() {
-        return groups;
+        return groups == null ? "" : groups;
     }
 
     public void setGroups(String groups) {
@@ -93,12 +93,6 @@ public class Event {
         StringBuilder sb = new StringBuilder();
         if (name != null && !name.isEmpty()) {
             sb.append(name);
-        }
-        if (rooms != null && !rooms.isEmpty()) {
-            if (sb.length() > 0) {
-                sb.append(DELIMITER);
-            }
-            sb.append(rooms);
         }
         if (teacher != null && !teacher.isEmpty()) {
             if (sb.length() > 0) {
@@ -111,12 +105,6 @@ public class Event {
                 sb.append(DELIMITER);
             }
             sb.append(groups);
-        }
-        if (comment != null && !comment.isEmpty()) {
-            if (sb.length() > 0) {
-                sb.append(DELIMITER);
-            }
-            sb.append(comment);
         }
         return sb.toString();
     }

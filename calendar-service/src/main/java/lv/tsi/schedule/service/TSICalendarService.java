@@ -2,15 +2,13 @@ package lv.tsi.schedule.service;
 
 import lv.tsi.schedule.domain.Event;
 import net.fortuna.ical4j.model.*;
-import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.List;
 
 @Component
 public class TSICalendarService implements CalendarService {
@@ -23,13 +21,9 @@ public class TSICalendarService implements CalendarService {
     public Calendar getCalendar(Long from, Long to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
         List<Event> events = dataService.getEvents(from, to, lang, teachers, rooms, groups);
         Calendar calendar = createCalendar();
-        if (events.isEmpty()) {
-            return calendar;
-        }
-        events.parallelStream()
+        events.stream()
                 .map(this::createEvent)
                 .forEach(vEvent -> calendar.getComponents().add(vEvent));
-
         return calendar;
     }
 
@@ -37,6 +31,9 @@ public class TSICalendarService implements CalendarService {
         DateTime currentDate = new DateTime(applicationTimeService.getCurrentTimestamp());
         DateTime startDate = new DateTime(event.getTimestamp());
         DateTime endDate = new DateTime(event.getTimestamp() + MILLISECONDS_FROM_90_MINUTES);
+        TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
+        TimeZone timezone = registry.getTimeZone("Europe/Riga");
+        VTimeZone tz = timezone.getVTimeZone();
         VEvent vEvent = new VEvent();
         vEvent.getDateStamp().setDateTime(currentDate);
         PropertyList properties = vEvent.getProperties();
@@ -47,6 +44,7 @@ public class TSICalendarService implements CalendarService {
         properties.add(new Location(event.getRooms()));
         properties.add(new Categories(event.getType()));
         properties.add(new Description(event.getComment()));
+        properties.add(tz.getTimeZoneId());
         return vEvent;
     }
 
