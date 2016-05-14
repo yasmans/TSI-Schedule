@@ -68,10 +68,10 @@ public class TSIEventAPIDataService implements DataService {
         return result;
     }
 
-    public List<Event> getEvents(long timestampFrom, long timestampTo, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
+    public List<Event> getEvents(Date dateTo, Date dateFrom, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
         Map<String, String> params = new HashMap<>();
-        params.put(URL_PARAM_DATE_FROM, String.valueOf(timestampFrom));
-        params.put(URL_PARAM_DATE_TO, String.valueOf(timestampTo));
+        params.put(URL_PARAM_DATE_FROM, String.valueOf(dateTo.getTime() / 1000));
+        params.put(URL_PARAM_DATE_TO, String.valueOf(dateFrom.getTime() / 1000));
         params.put(URL_PARAM_LANG, lang);
         params.put(PARAM_TEACHERS, StringUtils.collectionToCommaDelimitedString(teachers));
         params.put(PARAM_ROOMS, StringUtils.collectionToCommaDelimitedString(rooms));

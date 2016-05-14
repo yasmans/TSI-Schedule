@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -72,16 +73,16 @@ public class TSICalendarServiceTest {
         when(applicationTimeService.getCurrentTimestamp()).thenReturn(1463227200000L);
 
         List<Event> eventList = new ArrayList<>();
-        when(dataService.getEvents(anyLong(), anyLong(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class), anyListOf(Integer.class)))
+        when(dataService.getEvents(any(), any(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class), anyListOf(Integer.class)))
                 .thenReturn(eventList);
-        Calendar emptyCalendar = calendarService.getCalendar(1L, 12L, "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Calendar emptyCalendar = calendarService.getCalendar(new Date(), new Date(), "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         assertEquals("Service did not return any events so empty calendar should be returned", EMPTY_CALENDAR, emptyCalendar.toString().replace("\r\n", "\n"));
 
         Event firstEvent = new Event(54325, "Laboratorijas darbs", "nav atcelts", 1463227200000L, "Ivars Holcs", "L3", "4102BNL 41344LN");
         Event secondEvent = new Event(4432, "Skaitliskās metodes", null, 1463301000000L, "John Snow", "304", "4102BNL");
         eventList.add(firstEvent);
         eventList.add(secondEvent);
-        Calendar calendar = calendarService.getCalendar(1L, 12L, "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Calendar calendar = calendarService.getCalendar(new Date(), new Date(), "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         assertNotNull(calendar);
         assertEquals(CALENDAR_WITH_EVENTS, calendar.toString().replace("\r\n", "\n"));
 

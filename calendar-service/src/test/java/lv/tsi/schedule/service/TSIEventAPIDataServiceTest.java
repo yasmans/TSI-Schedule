@@ -58,11 +58,11 @@ public class TSIEventAPIDataServiceTest {
     @Test
     public void testGetEvents() throws Exception {
         when(restTemplate.getForObject(anyString(), any(), anyMapOf(String.class, String.class))).thenReturn("");
-        List<Event> emptyData = dataService.getEvents(53215L, 123L, "eng", new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        List<Event> emptyData = dataService.getEvents(new Date(), new Date(), "eng", new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
         assertTrue("Map should be empty", emptyData.isEmpty());
 
         when(restTemplate.getForObject(anyString(), any(), anyMapOf(String.class, String.class))).thenReturn(EVENTS_JSONP);
-        List<Event> events = dataService.getEvents(53215L, 123L, "eng", new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        List<Event> events = dataService.getEvents(new Date(), new Date(), "eng", new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
         assertEquals("Result must contain two elements", 2, events.size());
     }
 

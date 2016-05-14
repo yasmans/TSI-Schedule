@@ -2,13 +2,16 @@ package lv.tsi.schedule.service;
 
 import lv.tsi.schedule.domain.Event;
 import net.fortuna.ical4j.model.*;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 @Component
 public class TSICalendarService implements CalendarService {
@@ -18,7 +21,7 @@ public class TSICalendarService implements CalendarService {
     private DataService dataService;
     private ApplicationTimeService applicationTimeService;
 
-    public Calendar getCalendar(Long from, Long to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
+    public Calendar getCalendar(java.util.Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
         List<Event> events = dataService.getEvents(from, to, lang, teachers, rooms, groups);
         Calendar calendar = createCalendar();
         events.stream()

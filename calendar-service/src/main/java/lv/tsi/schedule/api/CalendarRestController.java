@@ -1,5 +1,6 @@
 package lv.tsi.schedule.api;
 
+import lv.tsi.schedule.domain.params.URLDateParam;
 import lv.tsi.schedule.service.CalendarService;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
@@ -18,8 +19,8 @@ public class CalendarRestController {
     private CalendarOutputter calendarOutputter = new CalendarOutputter();
 
     @RequestMapping(value = "/calendar/{from}/{to}/{lang}", method = RequestMethod.GET)
-    public void getCalendar(@PathVariable("from") Long from,
-                            @PathVariable("to") Long to,
+    public void getCalendar(@PathVariable("from") URLDateParam from,
+                            @PathVariable("to") URLDateParam to,
                             @PathVariable("lang") String lang,
                             @RequestParam(value = "teachers", required = false) List<Integer> teachers,
                             @RequestParam(value = "rooms", required = false) List<Integer> rooms,
@@ -35,7 +36,7 @@ public class CalendarRestController {
         response.addHeader("Content-disposition", "attachment;filename=calendar.ics");
         response.setContentType("txt/calendar");
 
-        Calendar calendar = calendarService.getCalendar(from, to, lang, teachers, rooms, groups);
+        Calendar calendar = calendarService.getCalendar(from.getDate(), to.getDate(), lang, teachers, rooms, groups);
         try {
             calendarOutputter.output(calendar, response.getOutputStream());
             response.flushBuffer();

@@ -62,7 +62,7 @@ public class Event {
     }
 
     public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+        this.timestamp = timestamp * 1000;
     }
 
     public String getTeacher() {

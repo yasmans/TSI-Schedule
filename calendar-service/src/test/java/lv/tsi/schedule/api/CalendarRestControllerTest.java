@@ -51,7 +51,7 @@ public class CalendarRestControllerTest {
 
     @Test
     public void testGetCalendar() throws Exception {
-        when(calendarService.getCalendar(anyLong(), anyLong(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class),anyListOf(Integer.class)))
+        when(calendarService.getCalendar(any(), any(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class),anyListOf(Integer.class)))
                 .thenReturn(new Calendar());
 
         // Get calendar for a week from 09-05-2016 to 15-05-2016
