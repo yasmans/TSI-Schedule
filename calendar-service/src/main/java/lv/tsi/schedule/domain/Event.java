@@ -91,7 +91,13 @@ public class Event {
 
     public String getSummary() {
         StringBuilder sb = new StringBuilder();
+        if (name != null && !name.isEmpty()) {
+            sb.append(name);
+        }
         if (rooms != null && !rooms.isEmpty()) {
+            if (sb.length() > 0) {
+                sb.append(DELIMITER);
+            }
             sb.append(rooms);
         }
         if (teacher != null && !teacher.isEmpty()) {
@@ -99,12 +105,6 @@ public class Event {
                 sb.append(DELIMITER);
             }
             sb.append(teacher);
-        }
-        if (name != null && !name.isEmpty()) {
-            if (sb.length() > 0) {
-                sb.append(DELIMITER);
-            }
-            sb.append(name);
         }
         if (groups != null && !groups.isEmpty()) {
             if (sb.length() > 0) {

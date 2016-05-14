@@ -31,7 +31,7 @@ public class TSICalendarServiceTest {
             "UID:54325\n" +
             "DTSTART:19700118T002542\n" +
             "DTEND:19700118T015542\n" +
-            "SUMMARY:L3 | Ivars Holcs | Laboratorijas darbs | 4102BNL 41344LN | nav atcelts\n" +
+            "SUMMARY:Laboratorijas darbs | L3 | Ivars Holcs | 4102BNL 41344LN | nav atcelts\n" +
             "LOCATION:L3\n" +
             "CATEGORIES:normal\n" +
             "DESCRIPTION:nav atcelts\n" +
