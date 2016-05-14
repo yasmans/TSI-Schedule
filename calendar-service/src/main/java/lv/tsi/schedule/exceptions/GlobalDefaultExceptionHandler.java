@@ -1,5 +1,6 @@
 package lv.tsi.schedule.exceptions;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 class GlobalDefaultExceptionHandler {
+
+    private static final Logger logger = Logger.getLogger("Application");
 
     public static final String ERROR_MESSAGE = "Oops! Something went wrong. Please try again later.";
 
@@ -24,6 +27,7 @@ class GlobalDefaultExceptionHandler {
             throw e;
 
         // Otherwise setup and send the user to a default error-view.
+        logger.error("Server exception occurred", e);
         return new ResponseEntity<>(ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

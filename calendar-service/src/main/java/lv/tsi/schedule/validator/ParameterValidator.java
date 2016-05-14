@@ -22,7 +22,9 @@ public class ParameterValidator {
     }
 
     public static String validateSearchParameters(List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
-        if (teachers.isEmpty() && rooms.isEmpty() && groups.isEmpty()) {
+        if ((teachers == null || teachers.isEmpty()) &&
+                (rooms == null || rooms.isEmpty()) &&
+                (groups == null || groups.isEmpty())) {
             return "At least one of parameters 'teachers', 'ŗooms' or 'groups' must contain valid value";
         } else return "";
     }
