@@ -30,19 +30,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class ReferenceDataRestControllerTest {
 
     private MockMvc mockMvc;
-    private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    @Autowired
-    void setConverters(HttpMessageConverter<?>[] converters) {
-        Arrays.asList(converters).stream()
-                .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
-                .findAny()
-                .ifPresent(converter -> this.mappingJackson2HttpMessageConverter = converter);
-        assertNotNull("the JSON message converter must not be null", this.mappingJackson2HttpMessageConverter);
-    }
 
     @Before
     public void setup() throws Exception {
@@ -56,9 +46,11 @@ public class ReferenceDataRestControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
-    protected String json(Object o) throws IOException {
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        this.mappingJackson2HttpMessageConverter.write(o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
-        return mockHttpOutputMessage.getBodyAsString();
+    @Test
+    public void testParameterValidation() throws Exception {
+        mockMvc.perform(get("/referenceData?type=foo&lang=rr"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'rr' is not a valid language. possible values: lv, en, ru.\n" +
+                        "'foo' is not a valid type. possible values: all, groups, teachers, rooms.\n"));
     }
 }
