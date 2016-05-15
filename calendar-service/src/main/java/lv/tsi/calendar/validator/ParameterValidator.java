@@ -5,10 +5,14 @@ import java.util.List;
 
 public class ParameterValidator {
 
+    private ParameterValidator(){}
+
     public static String validateLanguage(String language) {
         if (!Arrays.asList("lv", "en", "ru").contains(language)) {
             return "'" + language + "' is not a valid language. possible values: lv, en, ru.\n";
-        } else return "";
+        } else {
+            return "";
+        }
     }
 
     public static String validateReferenceDataType(String[] types) {
@@ -29,6 +33,8 @@ public class ParameterValidator {
                 (rooms == null || rooms.isEmpty()) &&
                 (groups == null || groups.isEmpty())) {
             return "At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n";
-        } else return "";
+        } else {
+            return "";
+        }
     }
 }

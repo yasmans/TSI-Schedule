@@ -2,6 +2,7 @@
     version '0.1-SNAPSHOT'
 
     apply plugin: 'java'
+    apply plugin: 'pmd'
     apply plugin: 'spring-boot'
 
     repositories {
@@ -27,4 +28,12 @@
         // JUnit and Mockito testing libraries
         testCompile "junit:junit:4.12"
         testCompile "org.mockito:mockito-core:1.+"
+    }
+
+    pmd {
+        ruleSets = [
+                "java-basic",
+                "java-braces",
+                "java-codesize"
+        ]
     }
