@@ -24,10 +24,10 @@ public class CalendarRestController {
     private CalendarService calendarService;
     private CalendarOutputter calendarOutputter = new CalendarOutputter();
 
-    @RequestMapping(value = "/calendar/{from}/{to}/{lang}", method = RequestMethod.GET)
+    @RequestMapping(value = "/calendar/{from}/{to}/calendar.ics", method = RequestMethod.GET)
     public void getCalendar(@PathVariable("from") URLDateParam from,
                             @PathVariable("to") URLDateParam to,
-                            @PathVariable("lang") String lang,
+                            @RequestParam(value = "lang", defaultValue = "en") String lang,
                             @RequestParam(value = "teachers", required = false) List<Integer> teachers,
                             @RequestParam(value = "rooms", required = false) List<Integer> rooms,
                             @RequestParam(value = "groups", required = false) List<Integer> groups,
