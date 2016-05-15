@@ -1,4 +1,4 @@
-package lv.tsi.schedule.domain;
+package lv.tsi.calendar.domain;
 
 public class Event {
 

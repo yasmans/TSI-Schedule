@@ -1,4 +1,4 @@
-package lv.tsi.schedule.validator;
+package lv.tsi.calendar.validator;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,18 +1,16 @@
-package lv.tsi.schedule.api;
+package lv.tsi.calendar.api;
 
-import lv.tsi.schedule.domain.ReferenceData;
-import lv.tsi.schedule.exceptions.ParameterValidationException;
-import lv.tsi.schedule.service.DataService;
+import lv.tsi.calendar.domain.ReferenceData;
+import lv.tsi.calendar.exceptions.ParameterValidationException;
+import lv.tsi.calendar.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-import static lv.tsi.schedule.validator.ParameterValidator.validateLanguage;
-import static lv.tsi.schedule.validator.ParameterValidator.validateReferenceDataType;
+import static lv.tsi.calendar.validator.ParameterValidator.validateLanguage;
+import static lv.tsi.calendar.validator.ParameterValidator.validateReferenceDataType;
 
 @RestController
 public class ReferenceDataRestController {

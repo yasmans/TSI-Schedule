@@ -1,22 +1,20 @@
-package lv.tsi.schedule.api;
+package lv.tsi.calendar.api;
 
-import lv.tsi.schedule.domain.params.URLDateParam;
-import lv.tsi.schedule.exceptions.ParameterValidationException;
-import lv.tsi.schedule.service.CalendarService;
+import lv.tsi.calendar.domain.params.URLDateParam;
+import lv.tsi.calendar.exceptions.ParameterValidationException;
+import lv.tsi.calendar.service.CalendarService;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static lv.tsi.schedule.validator.ParameterValidator.validateLanguage;
-import static lv.tsi.schedule.validator.ParameterValidator.validateSearchParameters;
+import static lv.tsi.calendar.validator.ParameterValidator.validateLanguage;
+import static lv.tsi.calendar.validator.ParameterValidator.validateSearchParameters;
 
 @RestController
 public class CalendarRestController {

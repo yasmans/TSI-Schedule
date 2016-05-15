@@ -1,6 +1,6 @@
-package lv.tsi.schedule.service;
+package lv.tsi.calendar.service;
 
-import lv.tsi.schedule.domain.Event;
+import lv.tsi.calendar.domain.Event;
 import net.fortuna.ical4j.model.*;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.TimeZone;

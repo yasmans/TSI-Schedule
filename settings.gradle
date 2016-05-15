@@ -1,4 +1,4 @@
-rootProject.name = "TSI Schedule"
+rootProject.name = "TSI Calendar Service"
 include 'frontend'
 include 'calendar-service'
 

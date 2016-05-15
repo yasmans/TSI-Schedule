@@ -1,12 +1,9 @@
-package lv.tsi.schedule.api;
+package lv.tsi.calendar.api;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
-import lv.tsi.schedule.Application;
-import lv.tsi.schedule.service.CalendarService;
+import lv.tsi.calendar.Application;
+import lv.tsi.calendar.service.CalendarService;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.model.property.ProdId;
-import net.fortuna.ical4j.model.property.Version;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +15,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

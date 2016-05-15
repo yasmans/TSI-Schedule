@@ -1,4 +1,4 @@
-package lv.tsi.schedule.exceptions;
+package lv.tsi.calendar.exceptions;
 
 public class ParameterValidationException extends RuntimeException {
     public ParameterValidationException(String validationErrors) {

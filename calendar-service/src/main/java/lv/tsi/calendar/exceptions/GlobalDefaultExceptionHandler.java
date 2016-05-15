@@ -1,4 +1,4 @@
-package lv.tsi.schedule.exceptions;
+package lv.tsi.calendar.exceptions;
 
 import org.apache.log4j.Logger;
 import org.springframework.core.annotation.AnnotationUtils;

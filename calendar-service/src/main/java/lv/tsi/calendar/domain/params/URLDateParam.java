@@ -1,6 +1,6 @@
-package lv.tsi.schedule.domain.params;
+package lv.tsi.calendar.domain.params;
 
-import lv.tsi.schedule.exceptions.ParameterValidationException;
+import lv.tsi.calendar.exceptions.ParameterValidationException;
 
 import java.io.Serializable;
 import java.text.ParseException;

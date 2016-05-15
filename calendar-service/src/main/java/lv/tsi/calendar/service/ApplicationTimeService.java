@@ -1,4 +1,4 @@
-package lv.tsi.schedule.service;
+package lv.tsi.calendar.service;
 
 import org.springframework.stereotype.Service;
 

@@ -10,7 +10,7 @@ buildscript {
 apply plugin: "idea"
 apply plugin: "eclipse"
 
-group = 'lv.tsi.schedule'
+group = 'lv.tsi.calendar'
 
 subprojects {
   apply plugin: "java"

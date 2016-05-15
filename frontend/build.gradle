@@ -1,4 +1,4 @@
-group 'lv.tsi.schedule'
+group 'lv.tsi.calendar'
 version 'unspecified'
 
 apply plugin: 'java'

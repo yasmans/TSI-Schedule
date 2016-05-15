@@ -1,8 +1,6 @@
-package lv.tsi.schedule.validator;
+package lv.tsi.calendar.validator;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class ParameterValidatorTest {
 

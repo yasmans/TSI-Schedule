@@ -1,7 +1,7 @@
-package lv.tsi.schedule.service;
+package lv.tsi.calendar.service;
 
-import lv.tsi.schedule.domain.Event;
-import lv.tsi.schedule.domain.ReferenceData;
+import lv.tsi.calendar.domain.Event;
+import lv.tsi.calendar.domain.ReferenceData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Service;
