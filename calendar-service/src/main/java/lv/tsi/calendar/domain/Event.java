@@ -91,20 +91,20 @@ public class Event {
 
     public String getSummary() {
         StringBuilder sb = new StringBuilder();
-        if (name != null && !name.isEmpty()) {
-            sb.append(name);
+        if (!getName().isEmpty()) {
+            sb.append(getName());
         }
-        if (teacher != null && !teacher.isEmpty()) {
+        if (!getTeacher().isEmpty()) {
             if (sb.length() > 0) {
                 sb.append(DELIMITER);
             }
-            sb.append(teacher);
+            sb.append(getTeacher());
         }
-        if (groups != null && !groups.isEmpty()) {
+        if (!getGroups().isEmpty()) {
             if (sb.length() > 0) {
                 sb.append(DELIMITER);
             }
-            sb.append(groups);
+            sb.append(getGroups());
         }
         return sb.toString();
     }
