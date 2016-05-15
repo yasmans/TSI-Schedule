@@ -12,6 +12,9 @@ public class ParameterValidator {
     }
 
     public static String validateReferenceDataType(String[] types) {
+        if (types == null) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (String type : types) {
             if (!Arrays.asList("all", "groups", "teachers", "rooms").contains(type)) {
@@ -25,7 +28,7 @@ public class ParameterValidator {
         if ((teachers == null || teachers.isEmpty()) &&
                 (rooms == null || rooms.isEmpty()) &&
                 (groups == null || groups.isEmpty())) {
-            return "At least one of parameters 'teachers', 'ŗooms' or 'groups' must contain valid value";
+            return "At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n";
         } else return "";
     }
 }

@@ -56,5 +56,18 @@ public class CalendarRestControllerTest {
                 .andExpect(content().contentType(MediaType.parseMediaType("txt/calendar")));
     }
 
-    //TODO: Test validation
+    @Test
+    public void testValidation() throws Exception {
+        when(calendarService.getCalendar(any(), any(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class),anyListOf(Integer.class)))
+                .thenReturn(new Calendar());
+
+        mockMvc.perform(get("/calendar/2016-05-09/2016-05-15/calendar.ics"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n"));
+
+        mockMvc.perform(get("/calendar/2016-05-09/2016-05-15/calendar.ics?lang=zz"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("'zz' is not a valid language. possible values: lv, en, ru.\n" +
+                        "At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n"));
+    }
 }
