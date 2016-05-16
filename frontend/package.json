@@ -1,0 +1,16 @@
+
+{
+  "name": "tsi-calendar-frontend",
+  "version": "0.0.1",
+  "dependencies": {
+    "primus": "*",
+    "async": "~0.8.0",
+    "express": "4.2.x"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "1.0.0",
+    "grunt-contrib-watch": "1.0.0"
+  },
+  "preferGlobal": true,
+  "private": true
+}
