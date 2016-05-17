@@ -1,10 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Hello</title>
-</head>
-<body>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../favicon.ico">-->
 
+    <title>TSI Calendar</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-select.min.css" rel="stylesheet">
+
+    <link href="css/fullcalendar.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container">
+
+    <div class="page-header">
+        <form class="form-horizontal">
+            <div class="form-group form-group-sm">
+                <div class="col-sm-9">
+                    <h1>TSI Calendar</h1>
+                </div>
+                <label class="col-sm-2 control-label" for="languageSelector">Select language</label>
+                <div class="col-sm-1">
+                    <select class="form-control selectpicker" id="languageSelector">
+                        <option>en</option>
+                        <option>lv</option>
+                        <option>ru</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9" id="calendar"></div>
+        <div class="col-md-3">
+            <form>
+                <div class="form-group">
+                    <label class="control-label" for="filter-type">Filter type</label>
+                    <select class="form-control selectpicker" id="filter-type" autofocus>
+                        <option></option>
+                        <option>By Group</option>
+                        <option>By Room</option>
+                        <option>By Teacher Name</option>
+                    </select>
+                    <label class="control-label" for="filter-value">Filter value</label>
+                    <select class="form-control selectpicker" id="filter-value">
+                        <option></option>
+                        <option>4102BNL</option>
+                        <option>304</option>
+                        <option>Karina Kostjakina</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">#</div>
+                        <input type="text" class="form-control" value="URL of calendar.ics" id="exampleInputAmount" placeholder="URL of calendar.ics" readonly>
+                    </div>
+                    <p>Use this URL to configure your Outlook, Google Calendar or other electronic organizer.</p>
+                    <p>For information on how to configure you calendar client please read <a>this</a> guide.</p>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div> <!-- /container -->
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>
+<script src='js/moment.min.js'></script>
+<script src='js/fullcalendar.min.js'></script>
+<script src='js/lang/en-gb.js'></script>
+<script>
+    $(document).ready(function() {
+        // page is now ready, initialize the calendar...
+        $('#calendar').fullCalendar({
+            // put your options and callbacks here
+        })
+    });
+</script>
 </body>
 </html>

@@ -1,22 +1,2 @@
-plugins {
-    id "com.moowork.node" version "0.12"
-    id "com.moowork.grunt" version "0.12"
-}
-
 group 'lv.tsi.calendar'
 version '0.2-SNAPSHOT'
-
-grunt_build.dependsOn 'installGrunt'
-grunt_build.dependsOn 'npmInstall'
-build.dependsOn grunt_build
-
-node {
-    version = '0.10.22'
-    download = true
-}
-
-grunt {
-    workDir = file("${project.projectDir}")
-    colors = true
-    bufferOutput = false
-}
