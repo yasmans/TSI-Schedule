@@ -99,8 +99,10 @@ public class TSIEventAPIDataService implements DataService {
             event.setComment((String)eventObject.get(EVENT_COMMENT));
             event.setType((String)eventObject.get(EVENT_TYPE));
             event.setTimestamp((Integer)eventObject.get(EVENT_TIME));
-            Integer teacher = Integer.valueOf((String) eventObject.get(EVENT_TEACHER_ID));
-            event.setTeacher(getTeacherById(referenceData, teacher));
+            try {
+                Integer teacher = Integer.valueOf((String) eventObject.get(EVENT_TEACHER_ID));
+                event.setTeacher(getTeacherById(referenceData, teacher));
+            } catch (NumberFormatException ignore){}
             List<Integer> rooms = (List<Integer>) eventObject.get(EVENT_ROOM_IDS);
             event.setRooms(getRoomsByIds(referenceData, rooms));
             List<Integer> groups = (List<Integer>) eventObject.get(EVENT_GROUP_IDS);
