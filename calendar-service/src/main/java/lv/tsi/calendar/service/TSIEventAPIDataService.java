@@ -1,9 +1,11 @@
 package lv.tsi.calendar.service;
 
+import lv.tsi.calendar.config.CacheConfiguration;
 import lv.tsi.calendar.domain.Event;
 import lv.tsi.calendar.domain.ReferenceData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -40,6 +42,7 @@ public class TSIEventAPIDataService implements DataService {
     private RestTemplate restTemplate = new RestTemplate();
     private JacksonJsonParser jsonParser = new JacksonJsonParser();
 
+    @Cacheable(CacheConfiguration.REFERENCE_DATA_CACHE)
     public Map<String, List<ReferenceData>> getReferenceData(String lang, String[] types) {
         Map<String, String> params = new HashMap<>();
         params.put(URL_PARAM_LANG, lang);
@@ -68,6 +71,7 @@ public class TSIEventAPIDataService implements DataService {
         return result;
     }
 
+    @Cacheable(CacheConfiguration.EVENTS_CACHE)
     public List<Event> getEvents(Date dateTo, Date dateFrom, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
         Map<String, String> params = new HashMap<>();
         params.put(URL_PARAM_DATE_FROM, String.valueOf(dateTo.getTime() / 1000));

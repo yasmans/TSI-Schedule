@@ -1,5 +1,6 @@
 package lv.tsi.calendar.service;
 
+import lv.tsi.calendar.config.CacheConfiguration;
 import lv.tsi.calendar.domain.Event;
 import net.fortuna.ical4j.model.*;
 import net.fortuna.ical4j.model.Calendar;
@@ -8,6 +9,7 @@ import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -21,7 +23,8 @@ public class TSICalendarService implements CalendarService {
     private DataService dataService;
     private ApplicationTimeService applicationTimeService;
 
-    public Calendar getCalendar(java.util.Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
+    @Cacheable(CacheConfiguration.CALENDAR_CACHE)
+    public Calendar getCalendar(Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
         List<Event> events = dataService.getEvents(from, to, lang, teachers, rooms, groups);
         Calendar calendar = createCalendar();
         events.stream()
