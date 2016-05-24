@@ -30,14 +30,18 @@ public class ParameterValidatorTest {
     public void testValidateSearchParameters() throws Exception {
         assertEquals("At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n",
                 ParameterValidator.validateSearchParameters(null, null, null));
+
         assertEquals("At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n",
                 ParameterValidator.validateSearchParameters(new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+
         assertEquals("",
                 ParameterValidator.validateSearchParameters(Arrays.asList(32, 543), new ArrayList<>(), new ArrayList<>()));
+
         assertEquals("",
-                ParameterValidator.validateSearchParameters(new ArrayList<>(), Arrays.asList(32, 543), new ArrayList<>()));
+                ParameterValidator.validateSearchParameters(null, Arrays.asList(32, 543), new ArrayList<>()));
+
         assertEquals("",
-                ParameterValidator.validateSearchParameters(new ArrayList<>(), new ArrayList<>(), Arrays.asList(32, 543)));
+                ParameterValidator.validateSearchParameters(new ArrayList<>(), null, Arrays.asList(32, 543)));
 
     }
 }

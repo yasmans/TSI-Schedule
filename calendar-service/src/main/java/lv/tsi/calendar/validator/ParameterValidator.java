@@ -5,7 +5,8 @@ import java.util.List;
 
 public class ParameterValidator {
 
-    private ParameterValidator(){}
+    private ParameterValidator() {
+    }
 
     public static String validateLanguage(String language) {
         if (!Arrays.asList("lv", "en", "ru").contains(language)) {
@@ -28,13 +29,15 @@ public class ParameterValidator {
         return sb.toString();
     }
 
-    public static String validateSearchParameters(List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
-        if ((teachers == null || teachers.isEmpty()) &&
-                (rooms == null || rooms.isEmpty()) &&
-                (groups == null || groups.isEmpty())) {
-            return "At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n";
-        } else {
-            return "";
-        }
+public static String validateSearchParameters(List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
+    if (containsValue(teachers) || containsValue(rooms) || containsValue(groups)) {
+        return "";
+    } else {
+        return "At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n";
     }
+}
+
+private static boolean containsValue(List<Integer> list) {
+    return list != null && !list.isEmpty();
+}
 }
