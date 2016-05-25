@@ -1,5 +1,7 @@
 package lv.tsi.calendar.domain;
 
+import java.util.Objects;
+
 public class Event {
 
     private static final String DELIMITER = " | ";
@@ -107,5 +109,25 @@ public class Event {
             sb.append(getGroups());
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return timestamp == event.timestamp &&
+                Objects.equals(id, event.id) &&
+                Objects.equals(name, event.name) &&
+                Objects.equals(comment, event.comment) &&
+                Objects.equals(type, event.type) &&
+                Objects.equals(teacher, event.teacher) &&
+                Objects.equals(rooms, event.rooms) &&
+                Objects.equals(groups, event.groups);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, comment, type, timestamp, teacher, rooms, groups);
     }
 }
