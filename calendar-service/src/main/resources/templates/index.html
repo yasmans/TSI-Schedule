@@ -51,22 +51,19 @@
 
                     <label class="control-label" th:text="#{label.filter_value}">Filter value</label>
                     <div class="input-group" id="filter-groups">
-                        <select class="form-control selectpicker" id="filter-value-group" data-live-search="true">
-                        </select>
+                        <select class="form-control selectpicker" id="filter-value-group" data-live-search="true"></select>
                         <span class="input-group-btn">
                             <button class="btn btn-default" th:text="#{label.search}" onclick="searchEvents()">Search</button>
                         </span>
                     </div>
                     <div class="input-group" id="filter-teachers">
-                        <select class="form-control selectpicker" id="filter-value-teacher" data-live-search="true">
-                        </select>
+                        <select class="form-control selectpicker" id="filter-value-teacher" data-live-search="true"></select>
                         <span class="input-group-btn">
                             <button class="btn btn-default" th:text="#{label.search}" onclick="searchEvents()">Search</button>
                         </span>
                     </div>
                     <div class="input-group" id="filter-rooms">
-                        <select class="form-control selectpicker" id="filter-value-room" data-live-search="true">
-                        </select>
+                        <select class="form-control selectpicker" id="filter-value-room" data-live-search="true"></select>
                         <span class="input-group-btn">
                             <button class="btn btn-default" th:text="#{label.search}" onclick="searchEvents()">Search</button>
                         </span>
@@ -76,7 +73,7 @@
                     <label th:text="#{label.calendar_url}" for="calendar-url">Calendar URL</label>
                     <div class="input-group">
                         <div class="input-group-addon">#</div>
-                        <input type="text" class="form-control" th:value="${calendarURL}" id="calendar-url" readonly="true"/>
+                        <input type="text" class="form-control" th:value="${calendarURL}" id="calendar-url" readonly="true" onClick="this.select();"/>
                     </div>
                     <p th:text="#{label.url_comment}">Use this URL to configure your Outlook, Google Calendar or other
                         electronic organizer.</p>
@@ -97,5 +94,8 @@
 <script src='../static/js/fullcalendar.min.js' th:src="@{/js/fullcalendar.min.js}"></script>
 <script src='../static/js/lang/en.js' th:src="@{'/js/lang/' + ${#locale} + '.js'}"></script>
 <script src='../static/js/app.js' th:src="@{/js/app.js}"></script>
+<script th:inline="javascript">
+    var user_language = /*[[${#locale.language}]]*/ 'lv';
+</script>
 </body>
 </html>

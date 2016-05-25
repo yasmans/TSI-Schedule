@@ -21,17 +21,17 @@ $('#filter-type').on('change', function () {
 function populateDropdowns() {
     $.ajax({
         url: '/referenceData'
-    }).then(function(data) {
+    }).then(function (data) {
         var filter_rooms = $("#filter-value-room");
         var filter_teachers = $("#filter-value-teacher");
         var filter_groups = $("#filter-value-group");
-        $.each(data.rooms, function() {
+        $.each(data.rooms, function () {
             filter_rooms.append($("<option />").val(this.id).text(this.name));
         });
-        $.each(data.teachers, function() {
+        $.each(data.teachers, function () {
             filter_teachers.append($("<option />").val(this.id).text(this.name));
         });
-        $.each(data.groups, function() {
+        $.each(data.groups, function () {
             filter_groups.append($("<option />").val(this.id).text(this.name));
         });
         filter_rooms.selectpicker('refresh');
@@ -40,7 +40,15 @@ function populateDropdowns() {
     });
 }
 
-var searchEvents= function() {
+var getSiteURL = function () {
+    if (!window.location.origin) {
+        return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+    } else {
+        return window.location.origin;
+    }
+};
+
+var searchEvents = function () {
     var type = $('#filter-type').val();
     var group = $('#filter-value-group').val();
     var room = $('#filter-value-room').val();
@@ -48,7 +56,7 @@ var searchEvents= function() {
     var group_value = '';
     var room_value = '';
     var teacher_value = '';
-    var date_from = '2016-03-01';
+    var date_from = '2016-03-01'; //TODO calculate dates
     var date_to = '2016-07-01';
     switch (type) {
         case 'group':
@@ -60,39 +68,39 @@ var searchEvents= function() {
         case 'teacher':
             teacher_value = teacher;
             break;
-        default: return;
+        default:
+            return;
     }
 
     $.ajax({
         url: '/events',
         data: {
-            lang: 'lv',
+            lang: user_language,
             from: date_from,
             to: date_to,
             teachers: teacher_value,
             rooms: room_value,
             groups: group_value
         }
-    }).then(function(data) {
+    }).then(function (data) {
         events = [];
-        $.each(data, function() {
+        $.each(data, function () {
             events.push({
                 title: $(this).attr('summary'),
                 start: $(this).attr('timestamp')
             })
         });
         $('#calendar').fullCalendar('removeEvents');
-        $('#calendar').fullCalendar('addEventSource', events );
-        $('#calendar-url').val('Create URL creator');
+        $('#calendar').fullCalendar('addEventSource', events);
+        $('#calendar-url').val(getSiteURL() + '/calendar/' + date_from + '/' + date_to + '/calendar.ics?lang=' + user_language +
+            '&groups=' + group_value + '&rooms=' + room_value + '&teachers=' + teacher_value);
     });
 
 };
 
 $(document).ready(function () {
-    $('#calendar').fullCalendar({
-
-    });
-
+    $('#calendar').fullCalendar({});
+    $('#calendar-url').val('');
     triggerDisplayRules();
     populateDropdowns();
 });
