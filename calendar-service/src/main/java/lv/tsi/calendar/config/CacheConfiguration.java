@@ -26,8 +26,9 @@ public class CacheConfiguration {
                 .expireAfterWrite(24, TimeUnit.HOURS)
                 .build());
         GuavaCache eventsCache = new GuavaCache(EVENTS_CACHE, CacheBuilder.newBuilder()
-                .maximumSize(100)
-                .expireAfterAccess(6, TimeUnit.HOURS)
+                // 128 MB of memory on 64bit JVM can fit approximately 663 Event objects
+                .maximumSize(663)
+                .expireAfterAccess(24, TimeUnit.HOURS)
                 .build());
         simpleCacheManager.setCaches(Arrays.asList(referenceDataCache, eventsCache));
         return simpleCacheManager;

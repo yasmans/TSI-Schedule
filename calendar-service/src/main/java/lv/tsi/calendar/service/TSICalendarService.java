@@ -54,8 +54,8 @@ public class TSICalendarService implements CalendarService {
         calendar.getProperties().add(new ProdId(TSI_CALENDAR_SERVICE));
         calendar.getProperties().add(Version.VERSION_2_0);
         calendar.getProperties().add(CalScale.GREGORIAN);
-        calendar.getProperties().add(new XProperty("X-PUBLISHED-TTL", "PT1H"));
-        calendar.getProperties().add(new XProperty("REFRESH-INTERVAL;VALUE=DURATION", "P1H"));
+        calendar.getProperties().add(new XProperty("X-PUBLISHED-TTL", "PT24H"));
+        calendar.getProperties().add(new XProperty("REFRESH-INTERVAL;VALUE=DURATION", "P24H"));
         return calendar;
     }
 
