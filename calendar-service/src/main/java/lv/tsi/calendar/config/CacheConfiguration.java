@@ -16,24 +16,20 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfiguration {
 
     public static final String REFERENCE_DATA_CACHE = "referenceDataCache";
-    public static final String CALENDAR_CACHE = "calendarCache";
     public static final String EVENTS_CACHE = "eventsCache";
 
     @Bean
     public CacheManager cacheManager() {
         SimpleCacheManager simpleCacheManager = new SimpleCacheManager();
         GuavaCache referenceDataCache = new GuavaCache(REFERENCE_DATA_CACHE, CacheBuilder.newBuilder()
-                .expireAfterWrite(3, TimeUnit.HOURS)
-                .build());
-        GuavaCache calendarCache = new GuavaCache(CALENDAR_CACHE, CacheBuilder.newBuilder()
-                .maximumSize(100)
-                .expireAfterAccess(30, TimeUnit.MINUTES)
+                .maximumSize(45)
+                .expireAfterWrite(24, TimeUnit.HOURS)
                 .build());
         GuavaCache eventsCache = new GuavaCache(EVENTS_CACHE, CacheBuilder.newBuilder()
                 .maximumSize(100)
-                .expireAfterAccess(30, TimeUnit.MINUTES)
+                .expireAfterAccess(6, TimeUnit.HOURS)
                 .build());
-        simpleCacheManager.setCaches(Arrays.asList(referenceDataCache, calendarCache, eventsCache));
+        simpleCacheManager.setCaches(Arrays.asList(referenceDataCache, eventsCache));
         return simpleCacheManager;
     }
 }

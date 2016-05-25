@@ -1,19 +1,15 @@
 package lv.tsi.calendar.service;
 
-import lv.tsi.calendar.config.CacheConfiguration;
 import lv.tsi.calendar.domain.Event;
 import net.fortuna.ical4j.model.*;
-import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class TSICalendarService implements CalendarService {
@@ -23,7 +19,6 @@ public class TSICalendarService implements CalendarService {
     private DataService dataService;
     private ApplicationTimeService applicationTimeService;
 
-    @Cacheable(CacheConfiguration.CALENDAR_CACHE)
     public Calendar getCalendar(Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
         List<Event> events = dataService.getEvents(from, to, lang, teachers, rooms, groups);
         Calendar calendar = createCalendar();
@@ -59,6 +54,8 @@ public class TSICalendarService implements CalendarService {
         calendar.getProperties().add(new ProdId(TSI_CALENDAR_SERVICE));
         calendar.getProperties().add(Version.VERSION_2_0);
         calendar.getProperties().add(CalScale.GREGORIAN);
+        calendar.getProperties().add(new XProperty("X-PUBLISHED-TTL", "PT1H"));
+        calendar.getProperties().add(new XProperty("REFRESH-INTERVAL;VALUE=DURATION", "P1H"));
         return calendar;
     }
 
