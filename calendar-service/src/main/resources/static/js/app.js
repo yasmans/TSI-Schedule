@@ -83,6 +83,7 @@ var searchEvents= function() {
         });
         $('#calendar').fullCalendar('removeEvents');
         $('#calendar').fullCalendar('addEventSource', events );
+        $('#calendar-url').val('Create URL creator');
     });
 
 };
