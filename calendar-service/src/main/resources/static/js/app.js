@@ -56,8 +56,12 @@ var searchEvents = function () {
     var group_value = '';
     var room_value = '';
     var teacher_value = '';
-    var date_from = '2016-03-01'; //TODO calculate dates
-    var date_to = '2016-07-01';
+    var moment = window.moment();
+    moment.date(1);
+    moment.hour(12);
+    var date_from = moment.format('YYYY-MM-DD');
+    moment.add(5, 'month');
+    var date_to = moment.format('YYYY-MM-DD');
     switch (type) {
         case 'group':
             group_value = group;
