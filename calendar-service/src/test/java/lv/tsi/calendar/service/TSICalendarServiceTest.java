@@ -26,6 +26,7 @@ public class TSICalendarServiceTest {
             "PRODID:-//TSI//Calendar Service//\n" +
             "VERSION:2.0\n" +
             "CALSCALE:GREGORIAN\n" +
+            "X-PUBLISHED-TTL:PT24H\n" +
             "END:VCALENDAR\n";
     public static final String EXAMPLE_EVENT = "BEGIN:VEVENT\n" +
             "DTSTAMP:20160514T120000Z\n" +
@@ -42,6 +43,7 @@ public class TSICalendarServiceTest {
             "PRODID:-//TSI//Calendar Service//\n" +
             "VERSION:2.0\n" +
             "CALSCALE:GREGORIAN\n" +
+            "X-PUBLISHED-TTL:PT24H\n" +
             "BEGIN:VEVENT\n" +
             "DTSTAMP:20160514T120000Z\n" +
             "UID:54325\n" +
