@@ -3,6 +3,7 @@
 
     apply plugin: 'java'
     apply plugin: 'pmd'
+    apply plugin: 'jacoco'
     apply plugin: 'spring-boot'
 
     repositories {
@@ -42,4 +43,11 @@
                 "java-braces",
                 "java-codesize"
         ]
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled true
+        }
     }
