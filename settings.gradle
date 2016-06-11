@@ -1,0 +1,3 @@
+rootProject.name = "TSI Calendar Service"
+include 'calendar-service'
+

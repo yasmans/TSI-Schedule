@@ -1,0 +1,9 @@
+# Intellij Idea
+.idea
+*.iml
+
+# Gradle configs
+**/.gradle/
+**/build/
+gradlew.bat
+gradle-wrapper.properties

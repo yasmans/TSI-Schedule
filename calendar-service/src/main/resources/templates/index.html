@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title th:text="#{label.title}">TSI Calendar</title>
+
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/bootstrap-select.min.css" th:href="@{/css/bootstrap-select.min.css}" rel="stylesheet"/>
+
+    <link href="../static/css/fullcalendar.min.css" th:href="@{/css/fullcalendar.min.css}" rel="stylesheet"/>
+    <link href="../static/css/app.css" th:href="@{/css/app.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+<div class="container">
+
+    <div class="page-header">
+        <form class="form-horizontal">
+            <div class="form-group form-group-sm">
+                <div class="col-sm-9">
+                    <h1 th:text="#{label.title}">TSI Calendar</h1>
+                </div>
+                <div class="col-sm-3">
+                    <p class="text-right">
+                        <a id="change-lang-lv" href="/?lang=lv">lv</a> /
+                        <a id="change-lang-ru" href="/?lang=ru">ru</a> /
+                        <a id="change-lang-en" href="/?lang=en">en</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9" id="calendar"></div>
+        <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label" for="filter-type" th:text="#{label.filter_type}">Filter type</label>
+                    <select class="form-control selectpicker" id="filter-type" autofocus="true">
+                        <option th:text="#{label.type_by_group}" value="group">By Group</option>
+                        <option th:text="#{label.type_by_room}" value="room">By Room</option>
+                        <option th:text="#{label.type_by_teacher_name}" value="teacher">By Teacher Name</option>
+                    </select>
+
+                    <label class="control-label" th:text="#{label.filter_value}">Filter value</label>
+                    <div class="input-group" id="filter-groups">
+                        <select class="form-control selectpicker" id="filter-value-group" data-live-search="true"></select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" th:text="#{label.search}" onclick="searchEvents()">Search</button>
+                        </span>
+                    </div>
+                    <div class="input-group" id="filter-teachers">
+                        <select class="form-control selectpicker" id="filter-value-teacher" data-live-search="true"></select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" th:text="#{label.search}" onclick="searchEvents()">Search</button>
+                        </span>
+                    </div>
+                    <div class="input-group" id="filter-rooms">
+                        <select class="form-control selectpicker" id="filter-value-room" data-live-search="true"></select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" th:text="#{label.search}" onclick="searchEvents()">Search</button>
+                        </span>
+                    </div>
+
+
+                    <label th:text="#{label.calendar_url}" for="calendar-url">Calendar URL</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">#</div>
+                        <input type="text" class="form-control" th:value="${calendarURL}" id="calendar-url" readonly="true" onClick="this.select();"/>
+                    </div>
+                    <p th:text="#{label.url_comment}">Use this URL to configure your Outlook, Google Calendar or other
+                        electronic organizer.</p>
+                </div>
+
+        </div>
+    </div>
+
+</div> <!-- /container -->
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/bootstrap-select.min.js" th:src="@{/js/bootstrap-select.min.js}"></script>
+<script src='../static/js/moment.min.js' th:src="@{/js/moment.min.js}"></script>
+<script src='../static/js/fullcalendar.min.js' th:src="@{/js/fullcalendar.min.js}"></script>
+<script src='../static/js/lang/en.js' th:src="@{'/js/lang/' + ${#locale} + '.js'}"></script>
+<script src='../static/js/app.js' th:src="@{/js/app.js}"></script>
+<script th:inline="javascript">
+    var user_language = /*[[${#locale.language}]]*/ 'lv';
+</script>
+</body>
+</html>
