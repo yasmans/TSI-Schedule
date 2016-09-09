@@ -3,11 +3,13 @@ package lv.tsi.calendar.service;
 import lv.tsi.calendar.domain.Event;
 import net.fortuna.ical4j.model.*;
 import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.component.VTimeZone;
 import net.fortuna.ical4j.model.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +18,10 @@ public class TSICalendarService implements CalendarService {
 
     public static final String TSI_CALENDAR_SERVICE = "-//TSI//Calendar Service//";
     public static final long MILLISECONDS_FROM_90_MINUTES = 90 * 60 * 1000;
+
+    private final TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
+    private final TimeZone timezone = registry.getTimeZone("Europe/Riga");
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
 
     private DataService dataService;
     private ApplicationTimeService applicationTimeService;
@@ -30,20 +36,27 @@ public class TSICalendarService implements CalendarService {
     }
 
     protected VEvent createEvent(Event event) {
-        DateTime currentDate = new DateTime(applicationTimeService.getCurrentTimestamp());
-        DateTime startDate = new DateTime(event.getTimestamp());
-        DateTime endDate = new DateTime(event.getTimestamp() + MILLISECONDS_FROM_90_MINUTES);
         VEvent vEvent = new VEvent();
-        vEvent.getDateStamp().setDateTime(currentDate);
+        vEvent.getDateStamp().setDateTime(getDateTime(applicationTimeService.getCurrentTimestamp()));
         PropertyList properties = vEvent.getProperties();
         properties.add(new Uid(String.valueOf(event.getId())));
-        properties.add(new DtStart(startDate));
-        properties.add(new DtEnd(endDate));
+        properties.add(new DtStart(getDateTime(event.getTimestamp())));
+        properties.add(new DtEnd(getDateTime(event.getTimestamp() + MILLISECONDS_FROM_90_MINUTES)));
         properties.add(new Summary(event.getSummary()));
         properties.add(new Location(event.getRooms()));
         properties.add(new Categories(event.getType()));
         properties.add(new Description(event.getComment()));
         return vEvent;
+    }
+
+    private DateTime getDateTime(long timestamp) {
+        String formattedDate = dateFormat.format(new Date(timestamp));
+        DateTime result = null;
+        try {
+            result =  new DateTime(formattedDate, timezone);
+        } catch (ParseException ignore) {
+        }
+        return result;
     }
 
     protected Calendar createCalendar() {
@@ -53,7 +66,7 @@ public class TSICalendarService implements CalendarService {
         calendar.getProperties().add(CalScale.GREGORIAN);
         calendar.getProperties().add(new XProperty("X-PUBLISHED-TTL", "PT24H"));
         calendar.getProperties().add(new XProperty("X-WR-TIMEZONE", "Europe/Riga"));
-        calendar.getProperties().add(new XProperty("X-WR-CALNAME", "TSI Cal"));
+        calendar.getProperties().add(new XProperty("X-WR-CALNAME", "TSI Calendar"));
         return calendar;
     }
 

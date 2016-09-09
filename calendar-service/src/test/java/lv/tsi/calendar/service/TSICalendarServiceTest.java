@@ -28,13 +28,13 @@ public class TSICalendarServiceTest {
             "CALSCALE:GREGORIAN\n" +
             "X-PUBLISHED-TTL:PT24H\n" +
             "X-WR-TIMEZONE:Europe/Riga\n" +
-            "X-WR-CALNAME:TSI Cal\n" +
+            "X-WR-CALNAME:TSI Calendar\n" +
             "END:VCALENDAR\n";
     public static final String EXAMPLE_EVENT = "BEGIN:VEVENT\n" +
             "DTSTAMP:20160514T120000Z\n" +
             "UID:54325\n" +
-            "DTSTART:20160514T150000\n" +
-            "DTEND:20160514T163000\n" +
+            "DTSTART;TZID=Europe/Riga:20160514T150000\n" +
+            "DTEND;TZID=Europe/Riga:20160514T163000\n" +
             "SUMMARY:Laboratorijas darbs | Ivars Holcs | 4102BNL 41344LN\n" +
             "LOCATION:L3\n" +
             "CATEGORIES:normal\n" +
@@ -46,12 +46,12 @@ public class TSICalendarServiceTest {
             "CALSCALE:GREGORIAN\n" +
             "X-PUBLISHED-TTL:PT24H\n" +
             "X-WR-TIMEZONE:Europe/Riga\n" +
-            "X-WR-CALNAME:TSI Cal\n" +
+            "X-WR-CALNAME:TSI Calendar\n" +
             "BEGIN:VEVENT\n" +
             "DTSTAMP:20160514T120000Z\n" +
             "UID:54325\n" +
-            "DTSTART:20160514T150000\n" +
-            "DTEND:20160514T163000\n" +
+            "DTSTART;TZID=Europe/Riga:20160514T150000\n" +
+            "DTEND;TZID=Europe/Riga:20160514T163000\n" +
             "SUMMARY:Laboratorijas darbs | Ivars Holcs | 4102BNL 41344LN\n" +
             "LOCATION:L3\n" +
             "CATEGORIES:\n" +
@@ -60,8 +60,8 @@ public class TSICalendarServiceTest {
             "BEGIN:VEVENT\n" +
             "DTSTAMP:20160514T120000Z\n" +
             "UID:4432\n" +
-            "DTSTART:20160515T113000\n" +
-            "DTEND:20160515T130000\n" +
+            "DTSTART;TZID=Europe/Riga:20160515T113000\n" +
+            "DTEND;TZID=Europe/Riga:20160515T130000\n" +
             "SUMMARY:Skaitliskās metodes | John Snow | 4102BNL\n" +
             "LOCATION:304\n" +
             "CATEGORIES:\n" +

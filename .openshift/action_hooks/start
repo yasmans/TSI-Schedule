@@ -6,7 +6,6 @@ set -x
 
 export JAVA_HOME=$OPENSHIFT_DATA_DIR/jdk1.8.0_65
 export PATH=$JAVA_HOME/bin:$PATH
-export JAVA_OPTS="-Duser.timezone=Europe/Riga"
 
 cd $OPENSHIFT_REPO_DIR
 nohup $OPENSHIFT_DATA_DIR/jdk1.8.0_65/bin/java -Xms384m -Xmx412m -jar calendar-service/build/libs/*.jar --server.port=${OPENSHIFT_DIY_PORT} --server.address=${OPENSHIFT_DIY_IP} --spring.profiles.active=openshift &
