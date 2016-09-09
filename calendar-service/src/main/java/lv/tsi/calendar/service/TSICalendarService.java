@@ -16,8 +16,6 @@ public class TSICalendarService implements CalendarService {
 
     public static final String TSI_CALENDAR_SERVICE = "-//TSI//Calendar Service//";
     public static final long MILLISECONDS_FROM_90_MINUTES = 90 * 60 * 1000;
-    private final TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
-    private final VTimeZone timezone = registry.getTimeZone("Europe/Riga").getVTimeZone();
 
     private DataService dataService;
     private ApplicationTimeService applicationTimeService;
@@ -45,7 +43,6 @@ public class TSICalendarService implements CalendarService {
         properties.add(new Location(event.getRooms()));
         properties.add(new Categories(event.getType()));
         properties.add(new Description(event.getComment()));
-        properties.add(timezone.getTimeZoneId());
         return vEvent;
     }
 
@@ -55,7 +52,7 @@ public class TSICalendarService implements CalendarService {
         calendar.getProperties().add(Version.VERSION_2_0);
         calendar.getProperties().add(CalScale.GREGORIAN);
         calendar.getProperties().add(new XProperty("X-PUBLISHED-TTL", "PT24H"));
-        calendar.getComponents().add(timezone);
+        calendar.getProperties().add(new XProperty("X-WR-TIMEZONE", "Europe/Riga"));
         return calendar;
     }
 
