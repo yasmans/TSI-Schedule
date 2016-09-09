@@ -53,6 +53,7 @@ public class TSICalendarService implements CalendarService {
         calendar.getProperties().add(CalScale.GREGORIAN);
         calendar.getProperties().add(new XProperty("X-PUBLISHED-TTL", "PT24H"));
         calendar.getProperties().add(new XProperty("X-WR-TIMEZONE", "Europe/Riga"));
+        calendar.getProperties().add(new XProperty("X-WR-CALNAME", "TSI Cal"));
         return calendar;
     }
 

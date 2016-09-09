@@ -28,6 +28,7 @@ public class TSICalendarServiceTest {
             "CALSCALE:GREGORIAN\n" +
             "X-PUBLISHED-TTL:PT24H\n" +
             "X-WR-TIMEZONE:Europe/Riga\n" +
+            "X-WR-CALNAME:TSI Cal\n" +
             "END:VCALENDAR\n";
     public static final String EXAMPLE_EVENT = "BEGIN:VEVENT\n" +
             "DTSTAMP:20160514T120000Z\n" +
@@ -45,6 +46,7 @@ public class TSICalendarServiceTest {
             "CALSCALE:GREGORIAN\n" +
             "X-PUBLISHED-TTL:PT24H\n" +
             "X-WR-TIMEZONE:Europe/Riga\n" +
+            "X-WR-CALNAME:TSI Cal\n" +
             "BEGIN:VEVENT\n" +
             "DTSTAMP:20160514T120000Z\n" +
             "UID:54325\n" +
