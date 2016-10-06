@@ -26,10 +26,11 @@ public class TSICalendarService implements CalendarService {
     private DataService dataService;
     private ApplicationTimeService applicationTimeService;
 
-    public Calendar getCalendar(Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
-        List<Event> events = dataService.getEvents(from, to, lang, teachers, rooms, groups);
+    public Calendar getCalendar(Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups, List<String> excludes) {
+        List<Event> events = dataService.getEvents(from, to, lang, teachers, rooms, groups, excludes);
         Calendar calendar = createCalendar();
         events.stream()
+                .filter(e -> !excludes.contains(e.getName()))
                 .map(this::createEvent)
                 .forEach(vEvent -> calendar.getComponents().add(vEvent));
         return calendar;

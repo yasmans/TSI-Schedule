@@ -72,7 +72,7 @@ public class TSIEventAPIDataService implements DataService {
     }
 
     @Cacheable(CacheConfiguration.EVENTS_CACHE)
-    public List<Event> getEvents(Date dateTo, Date dateFrom, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
+    public List<Event> getEvents(Date dateTo, Date dateFrom, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups, List<String> excludes) {
         Map<String, String> params = new HashMap<>();
         params.put(URL_PARAM_DATE_FROM, String.valueOf(dateTo.getTime() / 1000));
         params.put(URL_PARAM_DATE_TO, String.valueOf(dateFrom.getTime() / 1000));
