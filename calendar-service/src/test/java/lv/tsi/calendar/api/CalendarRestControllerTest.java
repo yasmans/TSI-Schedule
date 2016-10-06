@@ -18,10 +18,10 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -47,7 +47,7 @@ public class CalendarRestControllerTest {
 
     @Test
     public void testGetCalendar() throws Exception {
-        when(calendarService.getCalendar(any(), any(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class),anyListOf(Integer.class)))
+        when(calendarService.getCalendar(any(), any(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class),anyListOf(Integer.class), anyListOf(String.class)))
                 .thenReturn(new Calendar());
 
         // Get calendar for a week from 09-05-2016 to 15-05-2016
@@ -58,7 +58,7 @@ public class CalendarRestControllerTest {
 
     @Test
     public void testValidation() throws Exception {
-        when(calendarService.getCalendar(any(), any(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class),anyListOf(Integer.class)))
+        when(calendarService.getCalendar(any(), any(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class),anyListOf(Integer.class), anyListOf(String.class)))
                 .thenReturn(new Calendar());
 
         mockMvc.perform(get("/calendar/2016-05-09/2016-05-15/calendar.ics"))

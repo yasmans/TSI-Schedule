@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static lv.tsi.calendar.validator.ParameterValidator.validateLanguage;
@@ -29,9 +30,13 @@ public class CalendarRestController {
                             @RequestParam(value = "teachers", required = false) List<Integer> teachers,
                             @RequestParam(value = "rooms", required = false) List<Integer> rooms,
                             @RequestParam(value = "groups", required = false) List<Integer> groups,
+                            @RequestParam(value = "excludes", required = false) List<String> excludes,
                             HttpServletResponse response) throws IOException, ValidationException {
 
         String validationResults = validateParameters(lang, teachers, rooms, groups);
+        if (excludes == null) {
+            excludes = new ArrayList<>();
+        }
         if (!validationResults.isEmpty()) {
             throw new ParameterValidationException(validationResults);
         }
@@ -39,7 +44,7 @@ public class CalendarRestController {
         response.addHeader("Content-disposition", "attachment;filename=calendar.ics");
         response.setContentType("txt/calendar");
 
-        Calendar calendar = calendarService.getCalendar(from.getDate(), to.getDate(), lang, teachers, rooms, groups);
+        Calendar calendar = calendarService.getCalendar(from.getDate(), to.getDate(), lang, teachers, rooms, groups, excludes);
         calendarOutputter.output(calendar, response.getOutputStream());
         response.flushBuffer();
     }

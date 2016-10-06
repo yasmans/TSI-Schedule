@@ -9,5 +9,5 @@ import java.util.Map;
 
 public interface DataService {
     Map<String,List<ReferenceData>> getReferenceData(String lang, String[] types);
-    List<Event> getEvents(Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups);
+    List<Event> getEvents(Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups, List<String> excludes);
 }

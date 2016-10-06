@@ -5,7 +5,10 @@ import lv.tsi.calendar.domain.params.URLDateParam;
 import lv.tsi.calendar.exceptions.ParameterValidationException;
 import lv.tsi.calendar.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.ValidationException;
 import java.io.IOException;
@@ -25,13 +28,14 @@ public class EventRestController {
                                  @RequestParam(value = "lang", defaultValue = "en") String lang,
                                  @RequestParam(value = "teachers", required = false) List<Integer> teachers,
                                  @RequestParam(value = "rooms", required = false) List<Integer> rooms,
+                                 @RequestParam(value = "excludes", required = false) List<String> excludes,
                                  @RequestParam(value = "groups", required = false) List<Integer> groups) throws IOException, ValidationException {
 
         String validationResults = validateParameters(lang, teachers, rooms, groups);
         if (!validationResults.isEmpty()) {
             throw new ParameterValidationException(validationResults);
         }
-        return dataService.getEvents(from.getDate(), to.getDate(), lang, teachers, rooms, groups);
+        return dataService.getEvents(from.getDate(), to.getDate(), lang, teachers, rooms, groups, excludes);
     }
 
     private String validateParameters(String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
