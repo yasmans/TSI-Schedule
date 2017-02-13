@@ -43,19 +43,16 @@ dependencies {
   testCompile "org.mockito:mockito-core:1.+"
 }
 
+test {
+  finalizedBy jacocoTestReport
+}
+
 pmd {
   ruleSets = [
           "java-basic",
           "java-braces",
           "java-codesize"
   ]
-}
-
-jacocoTestReport {
-  reports {
-    xml.enabled false
-    csv.enabled true
-  }
 }
 
 task wrapper(type: Wrapper) {
