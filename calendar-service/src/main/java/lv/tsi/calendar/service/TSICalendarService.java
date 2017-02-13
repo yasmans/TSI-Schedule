@@ -52,12 +52,11 @@ public class TSICalendarService implements CalendarService {
 
     private DateTime getDateTime(long timestamp) {
         String formattedDate = dateFormat.format(new Date(timestamp));
-        DateTime result = null;
         try {
-            result =  new DateTime(formattedDate, timezone);
+            return new DateTime(formattedDate, timezone);
         } catch (ParseException ignore) {
+            return null;
         }
-        return result;
     }
 
     protected Calendar createCalendar() {
