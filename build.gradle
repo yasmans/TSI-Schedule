@@ -12,6 +12,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
+  mavenCentral()
   jcenter()
   maven { url 'http://repo.spring.io/snapshot' }
   maven { url 'http://repo.spring.io/milestone' }
@@ -56,5 +57,5 @@ pmd {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = "3.3"
+  gradleVersion = "2.14.1"
 }
