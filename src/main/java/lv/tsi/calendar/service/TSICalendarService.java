@@ -36,7 +36,7 @@ public class TSICalendarService implements CalendarService {
         return calendar;
     }
 
-    protected VEvent createEvent(Event event) {
+    VEvent createEvent(Event event) {
         VEvent vEvent = new VEvent();
         vEvent.getDateStamp().setDateTime(getDateTime(applicationTimeService.getCurrentTimestamp()));
         PropertyList properties = vEvent.getProperties();
@@ -59,7 +59,7 @@ public class TSICalendarService implements CalendarService {
         }
     }
 
-    protected Calendar createCalendar() {
+    Calendar createCalendar() {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(new ProdId(TSI_CALENDAR_SERVICE));
         calendar.getProperties().add(Version.VERSION_2_0);
