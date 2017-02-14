@@ -1,3 +1,12 @@
+.fc-content {
+    white-space: normal !important;
+}
+
 .fc-scroller {
     overflow-y: hidden !important;
+    height: inherit !important;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
