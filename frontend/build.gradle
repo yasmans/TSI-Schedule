@@ -1,0 +1,36 @@
+import com.moowork.gradle.node.task.NodeTask
+import com.moowork.gradle.node.npm.NpmTask
+
+plugins {
+  id "com.moowork.node" version "1.1.1"
+}
+
+apply plugin: 'base'
+version '0.0.1'
+
+buildDir = 'dist'
+
+node {
+  version = '6.5.0'
+
+  npmVersion = '3.10.6'
+  distBaseUrl = 'https://nodejs.org/dist'
+  download = true
+}
+
+task start(type: NpmTask) {
+  args = ['start']
+}
+
+task test(type: NpmTask) {
+  args = ['test']
+}
+
+task webpack(type: NodeTask, dependsOn: 'npmInstall') {
+  def osName = System.getProperty("os.name").toLowerCase()
+  if (osName.contains("windows")) {
+    script = project.file('node_modules/webpack/bin/webpack.js')
+  } else {
+    script = project.file('node_modules/.bin/webpack')
+  }
+}
