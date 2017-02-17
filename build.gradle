@@ -1,8 +1,8 @@
 plugins {
   id 'java'
-  id 'pmd'
-  id 'jacoco'
+  id 'jacoco' // Provides test code coverage reports
   id 'org.springframework.boot' version '1.5.1.RELEASE'
+  id 'antlr' // Custom Language parser generator
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -39,18 +39,13 @@ dependencies {
   // JUnit and Mockito testing libraries
   testCompile "junit:junit:4.12"
   testCompile "org.mockito:mockito-core:1.+"
+
+  // ANTLR dependency
+  antlr "org.antlr:antlr4:4.6" // use ANTLR version 4
 }
 
 test {
   finalizedBy jacocoTestReport
-}
-
-pmd {
-  ruleSets = [
-          "java-basic",
-          "java-braces",
-          "java-codesize"
-  ]
 }
 
 task wrapper(type: Wrapper) {

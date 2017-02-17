@@ -129,7 +129,7 @@ public class TSICalendarServiceTest {
     public void testCreateCalendar() throws Exception {
         Calendar calendar = calendarService.createCalendar();
         assertEquals("Calendar must contain ID", "-//TSI//Calendar Service//", calendar.getProductId().getValue());
-        assertEquals("Empty calendar with basic properties should be generated", EMPTY_CALENDAR,
+        assertEquals("Empty calendar with basic properties should be antlr", EMPTY_CALENDAR,
                 calendar.toString().replace("\r\n", "\n"));
     }
 }
