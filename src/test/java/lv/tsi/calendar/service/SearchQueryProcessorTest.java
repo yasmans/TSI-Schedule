@@ -8,7 +8,7 @@ public class SearchQueryProcessorTest {
     @Test
     public void testSearchBean() throws Exception {
         SearchQueryProcessor processor = new SearchQueryProcessor();
-        SearchBean searchBean = processor.createSearchBean("asgfasdf -tree teacher:'Jānis Liepa' -t:Buzdin -g:\"группа а\" mazais   \n -pimpis");
+        SearchBean searchBean = processor.createSearchBean("asgfasdf -tree teacher:'Jānis Liepa' -t:Buzdin -g:\"группа а\" ");
     }
 
 }

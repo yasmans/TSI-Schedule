@@ -47,8 +47,6 @@ public class SearchQueryProcessor {
 
         public void enterSearchQuery(SearchQueryParser.SearchQueryContext ctx) {}
         public void exitSearchQuery(SearchQueryParser.SearchQueryContext ctx) {}
-        public void enterTerm(SearchQueryParser.TermContext ctx) {}
-        public void exitTerm(SearchQueryParser.TermContext ctx) {}
         public void enterNegSearchTerm(SearchQueryParser.NegSearchTermContext ctx) {
             System.out.printf("Found negated search term: %s \n", ctx.getText());
         }

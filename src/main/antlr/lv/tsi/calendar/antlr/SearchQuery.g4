@@ -2,9 +2,10 @@ grammar SearchQuery;
 
 // ------------------- Parser Grammar -----------------
 
-searchQuery : term+ | EOF ;
-
-term : negSearchTerm | searchTerm ;
+searchQuery
+    : (negSearchTerm | searchTerm)+
+    | EOF
+    ;
 
 negSearchTerm
     : '-' group
