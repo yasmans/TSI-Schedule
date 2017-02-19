@@ -7,3 +7,6 @@
 **/build/
 gradlew.bat
 gradle-wrapper.properties
+
+# Generated java sources
+src/main/generated

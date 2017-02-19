@@ -8,6 +8,8 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+def generatedJavaSourcesDir = file('src/main/generated')
+
 repositories {
   mavenCentral()
   jcenter()
@@ -46,6 +48,27 @@ dependencies {
 
 test {
   finalizedBy jacocoTestReport
+}
+
+generateGrammarSource {
+  outputDirectory = generatedJavaSourcesDir
+  arguments += [
+          "-visitor",
+          "-package", "lv.tsi.calendar.antlr"
+  ]
+}
+
+
+sourceSets {
+  main {
+    java {
+      srcDir generatedJavaSourcesDir
+    }
+  }
+}
+
+clean {
+  delete generatedJavaSourcesDir
 }
 
 task wrapper(type: Wrapper) {

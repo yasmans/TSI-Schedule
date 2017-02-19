@@ -1,42 +1,60 @@
-/*  Search Query Grammar
-  Search query should support these features:
-    - room keyword for filtering by room
-    - teacher keyword for filtering by teacer
-    - group keyword for filtering by group
-    - '-' symbol for negation for excluding results by criteria
-
-    P.S By convention grammar rules should start with lowercase letter and parser rule with capital.
-*/
-
 grammar SearchQuery;
 
-exclude
+// ------------------- Parser Grammar -----------------
+
+searchQuery : term+ | EOF ;
+
+term : negSearchTerm | searchTerm ;
+
+negSearchTerm
     : '-' group
     | '-' teacher
     | '-' room
-    | '-' keyword
+    | '-' SEARCH_TERM
+    ;
+
+searchTerm
+    : group
+    | teacher
+    | room
+    | SEARCH_TERM
     ;
 
 group
-    : 'group:' keyword
-    | 'g:' keyword
+    : 'group:' SEARCH_TERM
+    | 'g:' SEARCH_TERM
     ;
 
 teacher
-    : 'teacher:' keyword
-    | 't:' keyword
+    : 'teacher:' SEARCH_TERM
+    | 't:' SEARCH_TERM
     ;
 
 room
-    : 'room:' keyword
-    | 'r:' keyword
+    : 'room:' SEARCH_TERM
+    | 'r:' SEARCH_TERM
     ;
 
-keyword
-    : '\'' STR+ '\''
-    | '"' STR+ '"'
-    | STR
+// ------------------- Lexer Grammar -----------------
+
+// Unicode letter or digit
+fragment LetterOrDigitWithSpace
+    : [a-zA-Z0-9_ ]
+    | ~[\u0000-\u007F\uD800-\uDBFF]
+    | [\uD800-\uDBFF] [\uDC00-\uDFFF]
     ;
 
-STR : [w]+ ;
-WS : [ \t\r\n]+ -> skip ;
+fragment LetterOrDigit
+    : [a-zA-Z0-9_]
+    | ~[\u0000-\u007F\uD800-\uDBFF]
+    | [\uD800-\uDBFF] [\uDC00-\uDFFF]
+    ;
+
+SEARCH_TERM
+    : '"' LetterOrDigitWithSpace+ '"'
+    | '\'' LetterOrDigitWithSpace+ '\''
+    | LetterOrDigit+
+    ;
+
+// Ignore whitespace charachters within search term
+WS : [ \t\r\n]+ -> skip;
