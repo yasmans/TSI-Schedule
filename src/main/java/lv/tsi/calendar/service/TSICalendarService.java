@@ -16,8 +16,8 @@ import java.util.List;
 @Component
 public class TSICalendarService implements CalendarService {
 
-    public static final String TSI_CALENDAR_SERVICE = "-//TSI//Calendar Service//";
-    public static final long MILLISECONDS_FROM_90_MINUTES = 90 * 60 * 1000;
+    private static final String TSI_CALENDAR_SERVICE = "-//TSI//Calendar Service//";
+    private static final long MILLISECONDS_FROM_90_MINUTES = 90 * 60 * 1000;
 
     private final TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
     private final TimeZone timezone = registry.getTimeZone("Europe/Riga");

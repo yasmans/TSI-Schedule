@@ -15,7 +15,7 @@ class GlobalDefaultExceptionHandler {
 
     private static final Logger logger = Logger.getLogger("Application");
 
-    public static final String ERROR_MESSAGE = "Oops! Something went wrong. Please try again later.";
+    private static final String ERROR_MESSAGE = "Oops! Something went wrong. Please try again later.";
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<String> defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
