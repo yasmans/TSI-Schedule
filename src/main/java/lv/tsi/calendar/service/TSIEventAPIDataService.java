@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class TSIEventAPIDataService implements DataService {
+public class TSIEventAPIDataService {
 
     public static final String URL_PARAM_LANG = "lang";
     public static final String URL_PARAM_TYPE = "type";
@@ -77,13 +77,17 @@ public class TSIEventAPIDataService implements DataService {
         return result;
     }
 
-    @Override
     public EventsDTO searchEvents(String searchQuery, String lang) {
         EventsDTO eventsDTO = new EventsDTO();
-
         SearchBean searchBean = searchQueryProcessor.createSearchBean(searchQuery);
         eventsDTO.setSearchBean(searchBean);
+        List<Event> events = fetchEventsFromDatastore(searchBean, lang);
+        eventsDTO.setEvents(events);
+        return eventsDTO;
+    }
 
+    @Cacheable(CacheConfiguration.EVENTS_CACHE)
+    public List<Event> fetchEventsFromDatastore(SearchBean searchBean, String lang) {
         // Prepare query for fetching data
         Map<String, List<ReferenceData>> referenceData = getReferenceData("en", new String[]{PARAM_GROUPS, PARAM_ROOMS, PARAM_TEACHERS});
 
@@ -101,9 +105,9 @@ public class TSIEventAPIDataService implements DataService {
         List<Event> events = new ArrayList<>();
         if (!json.isEmpty()) {
             events.addAll(parseEventsJson(json));
+            events = filterEvents(events, searchBean);
         }
-        eventsDTO.setEvents(filterEvents(events, searchBean));
-        return eventsDTO;
+        return events;
     }
 
     List<Event> filterEvents(List<Event> events, SearchBean searchBean) {
@@ -151,25 +155,6 @@ public class TSIEventAPIDataService implements DataService {
                 .map(r -> String.valueOf(r.getId()))
                 .sorted()
                 .collect(Collectors.joining(","));
-    }
-
-    @Cacheable(CacheConfiguration.EVENTS_CACHE)
-    public List<Event> getEvents(Date dateTo, Date dateFrom, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups, List<String> excludes) {
-        Map<String, String> params = new HashMap<>();
-        params.put(URL_PARAM_DATE_FROM, String.valueOf(dateTo.getTime() / 1000));
-        params.put(URL_PARAM_DATE_TO, String.valueOf(dateFrom.getTime() / 1000));
-        params.put(URL_PARAM_LANG, lang);
-        params.put(PARAM_TEACHERS, StringUtils.collectionToCommaDelimitedString(teachers));
-        params.put(PARAM_ROOMS, StringUtils.collectionToCommaDelimitedString(rooms));
-        params.put(PARAM_GROUPS, StringUtils.collectionToCommaDelimitedString(groups));
-
-        String responseBody = restTemplate.getForObject(eventURL, String.class, params);
-        String json = convertJsonPToJsonString(responseBody);
-        if (json.isEmpty()) {
-            return new ArrayList<>();
-        } else {
-            return parseEventsJson(json);
-        }
     }
 
     @SuppressWarnings("unchecked")

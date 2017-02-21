@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class TSICalendarServiceTest {
 
     private TSICalendarService calendarService = new TSICalendarService();
-    private DataService dataService = mock(DataService.class);
+    private TSIEventAPIDataService dataService = mock(TSIEventAPIDataService.class);
     private ApplicationTimeService applicationTimeService = mock(ApplicationTimeService.class);
 
     public static final String EMPTY_CALENDAR = "BEGIN:VCALENDAR\n" +
@@ -87,32 +87,6 @@ public class TSICalendarServiceTest {
             "DESCRIPTION:\n" +
             "END:VEVENT\n" +
             "END:VCALENDAR\n";
-
-    @Test
-    public void testGetCalendar() throws Exception {
-        calendarService.setApplicationTimeService(applicationTimeService);
-        calendarService.setDataService(dataService);
-        when(applicationTimeService.getCurrentTimestamp()).thenReturn(1463227200000L);
-
-        List<Event> eventList = new ArrayList<>();
-        when(dataService.getEvents(any(), any(), anyString(), anyListOf(Integer.class), anyListOf(Integer.class), anyListOf(Integer.class), anyListOf(String.class)))
-                .thenReturn(eventList);
-        Calendar emptyCalendar = calendarService.getCalendar(new Date(), new Date(), "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        assertEquals("Service did not return any events so empty calendar should be returned", EMPTY_CALENDAR, emptyCalendar.toString().replace("\r\n", "\n"));
-
-        Event firstEvent = new Event(54325, "Laboratorijas darbs", "nav atcelts", 1463227200000L, "Ivars Holcs", "L3", "4102BNL 41344LN");
-        Event secondEvent = new Event(4432, "Skaitliskās metodes", null, 1463301000000L, "John Snow", "304", "4102BNL");
-        eventList.add(firstEvent);
-        eventList.add(secondEvent);
-        Calendar calendar = calendarService.getCalendar(new Date(), new Date(), "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        assertNotNull(calendar);
-        assertEquals(CALENDAR_WITH_EVENTS, calendar.toString().replace("\r\n", "\n"));
-
-        calendar = calendarService.getCalendar(new Date(), new Date(), "en", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), Collections.singletonList("Laboratorijas darbs"));
-        assertNotNull(calendar);
-        assertEquals(CALENDAR_WITH_FILTERED_EVENTS, calendar.toString().replace("\r\n", "\n"));
-
-    }
 
     @Test
     public void testCreateEvent() throws Exception {

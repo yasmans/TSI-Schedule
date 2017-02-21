@@ -1,6 +1,8 @@
 package lv.tsi.calendar.service;
 
 import lv.tsi.calendar.domain.Event;
+import lv.tsi.calendar.service.search.SearchBean;
+import lv.tsi.calendar.service.search.SearchQueryProcessor;
 import net.fortuna.ical4j.model.*;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.*;
@@ -23,14 +25,15 @@ public class TSICalendarService implements CalendarService {
     private final TimeZone timezone = registry.getTimeZone("Europe/Riga");
     private final DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
 
-    private DataService dataService;
+    private TSIEventAPIDataService dataService;
     private ApplicationTimeService applicationTimeService;
+    private SearchQueryProcessor searchQueryProcessor;
 
-    public Calendar getCalendar(Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups, List<String> excludes) {
-        List<Event> events = dataService.getEvents(from, to, lang, teachers, rooms, groups, excludes);
+    public Calendar getCalendar(String searchQuery, String lang) {
+        SearchBean searchBean = searchQueryProcessor.createSearchBean(searchQuery);
+        List<Event> events = dataService.fetchEventsFromDatastore(searchBean, lang);
         Calendar calendar = createCalendar();
         events.stream()
-                .filter(e -> !excludes.contains(e.getName()))
                 .map(this::createEvent)
                 .forEach(vEvent -> calendar.getComponents().add(vEvent));
         return calendar;
@@ -71,12 +74,17 @@ public class TSICalendarService implements CalendarService {
     }
 
     @Autowired
-    public void setDataService(DataService dataService) {
+    public void setDataService(TSIEventAPIDataService dataService) {
         this.dataService = dataService;
     }
 
     @Autowired
     public void setApplicationTimeService(ApplicationTimeService applicationTimeService) {
         this.applicationTimeService = applicationTimeService;
+    }
+
+    @Autowired
+    public void setSearchQueryProcessor(SearchQueryProcessor searchQueryProcessor) {
+        this.searchQueryProcessor = searchQueryProcessor;
     }
 }

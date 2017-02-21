@@ -9,9 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class SearchQueryProcessorTest {
@@ -26,35 +24,30 @@ public class SearchQueryProcessorTest {
         Map<SearchField, Set<String>> excludeTerms = searchBean.getExcludeTerms();
 
         Set<String> searchTermsAll = searchTerms.get(SearchField.ALL);
-        assertThat(searchTermsAll, notNullValue());
         assertThat(searchTermsAll, hasItems("4102BNL"));
         assertThat(searchTermsAll, hasSize(1));
 
         Set<String> searchItemsTeacher = searchTerms.get(SearchField.TEACHER);
-        assertThat(searchItemsTeacher, notNullValue());
         assertThat(searchItemsTeacher, hasItems("Jānis Liepa", "володя"));
         assertThat(searchItemsTeacher, hasSize(2));
 
-        assertThat(searchTerms.get(SearchField.ROOM), nullValue());
+        assertThat(searchTerms.get(SearchField.ROOM).size(), is(0));
 
-        assertThat(searchTerms.get(SearchField.GROUP), nullValue());
+        assertThat(searchTerms.get(SearchField.GROUP).size(), is(0));
 
         Set<String> excludeItemsAll = excludeTerms.get(SearchField.ALL);
-        assertThat(excludeItemsAll, notNullValue());
         assertThat(excludeItemsAll, hasItems("eksāmens"));
         assertThat(excludeItemsAll, hasSize(1));
 
         Set<String> excludeItemsRoom = excludeTerms.get(SearchField.ROOM);
-        assertThat(excludeItemsRoom, notNullValue());
         assertThat(excludeItemsRoom, hasItems("310"));
         assertThat(excludeItemsRoom, hasSize(1));
 
         Set<String> excludeItemsGroup = excludeTerms.get(SearchField.GROUP);
-        assertThat(excludeItemsGroup, notNullValue());
         assertThat(excludeItemsGroup, hasItems("группа а"));
         assertThat(excludeItemsGroup, hasSize(1));
 
-        assertThat(excludeTerms.get(SearchField.TEACHER), nullValue());
+        assertThat(excludeTerms.get(SearchField.TEACHER).size(), is(0));
     }
 
     @Test

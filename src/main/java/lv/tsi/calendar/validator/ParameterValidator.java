@@ -1,12 +1,8 @@
 package lv.tsi.calendar.validator;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class ParameterValidator {
-
-    private ParameterValidator() {
-    }
 
     public static String validateLanguage(String language) {
         if (!Arrays.asList("lv", "en", "ru").contains(language)) {
@@ -16,28 +12,4 @@ public class ParameterValidator {
         }
     }
 
-    public static String validateReferenceDataType(String[] types) {
-        if (types == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String type : types) {
-            if (!Arrays.asList("all", "groups", "teachers", "rooms").contains(type)) {
-                sb.append("'").append(type).append("' is not a valid type. possible values: all, groups, teachers, rooms.\n");
-            }
-        }
-        return sb.toString();
-    }
-
-public static String validateSearchParameters(List<Integer> teachers, List<Integer> rooms, List<Integer> groups) {
-    if (containsValue(teachers) || containsValue(rooms) || containsValue(groups)) {
-        return "";
-    } else {
-        return "At least one of parameters 'teachers', 'rooms' or 'groups' must contain valid value\n";
-    }
-}
-
-private static boolean containsValue(List<Integer> list) {
-    return list != null && !list.isEmpty();
-}
 }

@@ -2,9 +2,6 @@ package lv.tsi.calendar.service;
 
 import net.fortuna.ical4j.model.Calendar;
 
-import java.util.Date;
-import java.util.List;
-
 public interface CalendarService {
-    Calendar getCalendar(Date from, Date to, String lang, List<Integer> teachers, List<Integer> rooms, List<Integer> groups, List<String> excludes);
+    Calendar getCalendar(String searchQuery, String lang);
 }
