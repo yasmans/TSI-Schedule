@@ -3,6 +3,10 @@ package lv.tsi.calendar.service;
 import lv.tsi.calendar.config.CacheConfiguration;
 import lv.tsi.calendar.domain.Event;
 import lv.tsi.calendar.domain.ReferenceData;
+import lv.tsi.calendar.dto.EventsDTO;
+import lv.tsi.calendar.service.search.SearchBean;
+import lv.tsi.calendar.service.search.SearchQueryProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,6 +45,8 @@ public class TSIEventAPIDataService implements DataService {
     private String eventURL;
     private RestTemplate restTemplate = new RestTemplate();
     private JacksonJsonParser jsonParser = new JacksonJsonParser();
+    private SearchQueryProcessor searchQueryProcessor;
+    private ApplicationTimeService applicationTimeService;
 
     @Cacheable(CacheConfiguration.REFERENCE_DATA_CACHE)
     public Map<String, List<ReferenceData>> getReferenceData(String lang, String[] types) {
@@ -69,6 +75,85 @@ public class TSIEventAPIDataService implements DataService {
             result.put(key, referenceDataList);
         }
         return result;
+    }
+
+    @Override
+    public EventsDTO searchEvents(String searchQuery, String lang) {
+        EventsDTO eventsDTO = new EventsDTO();
+
+        SearchBean searchBean = searchQueryProcessor.createSearchBean(searchQuery);
+        eventsDTO.setSearchBean(searchBean);
+
+        // Prepare query for fetching data
+        Map<String, List<ReferenceData>> referenceData = getReferenceData("en", new String[]{PARAM_GROUPS, PARAM_ROOMS, PARAM_TEACHERS});
+
+        Map<String, String> params = new HashMap<>();
+        params.put(URL_PARAM_DATE_FROM, String.valueOf(applicationTimeService.getStartOfPreviousMonth()));
+        params.put(URL_PARAM_DATE_TO, String.valueOf(applicationTimeService.getStartOfMonthAfterHalfAYear()));
+        params.put(URL_PARAM_LANG, lang);
+        params.put(PARAM_GROUPS, getSearchTermIDs(searchBean.getGroupSearchTerms(), referenceData.get(PARAM_GROUPS)));
+        params.put(PARAM_ROOMS, getSearchTermIDs(searchBean.getRoomSearchTerms(), referenceData.get(PARAM_ROOMS)));
+        params.put(PARAM_TEACHERS, getSearchTermIDs(searchBean.getTeacherSearchTerms(), referenceData.get(PARAM_TEACHERS)));
+
+        // Query for data
+        String responseBody = restTemplate.getForObject(eventURL, String.class, params);
+        String json = convertJsonPToJsonString(responseBody);
+        List<Event> events = new ArrayList<>();
+        if (!json.isEmpty()) {
+            events.addAll(parseEventsJson(json));
+        }
+        eventsDTO.setEvents(filterEvents(events, searchBean));
+        return eventsDTO;
+    }
+
+    List<Event> filterEvents(List<Event> events, SearchBean searchBean) {
+
+        //TODO: Something is terribly wrong here :(
+
+        Set<String> groupExcludeTerms = searchBean.getExcludeTerms(SearchBean.SearchField.GROUP);
+        Set<String> teacherExcludeTerms = searchBean.getExcludeTerms(SearchBean.SearchField.TEACHER);
+        Set<String> roomExcludeTerms = searchBean.getExcludeTerms(SearchBean.SearchField.ROOM);
+        Set<String> allExcludeTerms = searchBean.getExcludeTerms(SearchBean.SearchField.ALL);
+        return events.stream()
+                .filter(event -> {
+                    for (String term : groupExcludeTerms) {
+                        if (event.getGroups().contains(term)) {
+                            return false;
+                        }
+                    }
+                    for (String term : teacherExcludeTerms) {
+                        if (event.getTeacher().contains(term)) {
+                            return false;
+                        }
+                    }
+                    for (String term : roomExcludeTerms) {
+                        if (event.getRooms().contains(term)) {
+                            return false;
+                        }
+                    }
+                    for (String term : allExcludeTerms) {
+                        if (event.getSummary().contains(term)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                })
+                .collect(Collectors.toList());
+    }
+
+    String getSearchTermIDs(Collection<String> searchTerms, Collection<ReferenceData> referenceData) {
+        return referenceData.parallelStream()
+                .filter(rd -> {
+                    for (String term : searchTerms) {
+                        if (rd.getName().toLowerCase().contains(term.toLowerCase())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                .map(r -> String.valueOf(r.getId()))
+                .sorted()
+                .collect(Collectors.joining(","));
     }
 
     @Cacheable(CacheConfiguration.EVENTS_CACHE)
@@ -183,6 +268,16 @@ public class TSIEventAPIDataService implements DataService {
     @Value("${tsi.url.events}")
     public void setEventURL(String eventURL) {
         this.eventURL = eventURL;
+    }
+
+    @Autowired
+    public void setSearchQueryProcessor(SearchQueryProcessor searchQueryProcessor) {
+        this.searchQueryProcessor = searchQueryProcessor;
+    }
+
+    @Autowired
+    public void setApplicationTimeService(ApplicationTimeService applicationTimeService) {
+        this.applicationTimeService = applicationTimeService;
     }
 
     public void setRestTemplate(RestTemplate restTemplate) {

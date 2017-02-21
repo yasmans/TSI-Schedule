@@ -2,6 +2,11 @@ package lv.tsi.calendar.service;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,14 +20,32 @@ import java.util.Date;
 @Service
 public class ApplicationTimeService {
 
-    private Calendar calendar = Calendar.getInstance();
-
     public long getCurrentTimestamp() {
-        return calendar.getTimeInMillis();
+        return Calendar.getInstance().getTimeInMillis();
     }
 
     public Date getCurrentDate() {
-        return calendar.getTime();
+        return Calendar.getInstance().getTime();
     }
 
+    public long getStartOfPreviousMonth() {
+        return LocalDateTime
+                .now()
+                .minusMonths(1)
+                .withDayOfMonth(1)
+                .truncatedTo(ChronoUnit.DAYS)
+                .toInstant(ZoneOffset.UTC)
+                .getLong(ChronoField.INSTANT_SECONDS);
+    }
+
+    public long getStartOfMonthAfterHalfAYear() {
+        return LocalDateTime
+                .now()
+                .minusMonths(1)
+                .withDayOfMonth(1)
+                .plusDays(182)
+                .truncatedTo(ChronoUnit.DAYS)
+                .toInstant(ZoneOffset.UTC)
+                .getLong(ChronoField.INSTANT_SECONDS);
+    }
 }

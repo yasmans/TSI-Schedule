@@ -2,12 +2,14 @@ package lv.tsi.calendar.service;
 
 import lv.tsi.calendar.domain.Event;
 import lv.tsi.calendar.domain.ReferenceData;
+import lv.tsi.calendar.service.search.SearchQueryProcessor;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
@@ -20,13 +22,14 @@ public class TSIEventAPIDataServiceTest {
     public static final String EVENTS_JSONP = "foo({\"d\":\"{\"events\": [{ \"id\": 513377,\n \"name\": \"Software Engineering\",\n \"comment\": \"\",\n \"type\": \"normal\",\n \"time\": 1451931300,\n \"teacher\": \"11292\",\n \"room\": [\n 43\n ],\n \"group\": [\n 901,\n 433\n ]\n },\n {\n \"id\": 513107,\n \"name\": \"Software Engineering\",\n \"comment\": \"\",\n \"type\": \"normal\",\n \"time\": 1452017700,\n \"teacher\": \"11292\",\n \"room\": [\n 43\n ],\n \"group\": []\n }\n ]\n }\"})";
     public static final String EVENTS_JSON = "{\"events\": [{ \"id\": 513377,\n \"name\": \"Software Engineering\",\n \"comment\": \"\",\n \"type\": \"normal\",\n \"time\": 1451931300,\n \"teacher\": \"11292\",\n \"room\": [\n 43\n ],\n \"group\": [\n 901,\n 433\n ]\n },\n {\n \"id\": 513107,\n \"name\": \"Software Engineering\",\n \"comment\": \"\",\n \"type\": \"normal\",\n \"time\": 1452017700,\n \"teacher\": \"11292\",\n \"room\": [\n 43\n ],\n \"group\": []\n }\n ]\n }";
 
-
+    private SearchQueryProcessor searchQueryProcessor = new SearchQueryProcessor();
     private TSIEventAPIDataService dataService = new TSIEventAPIDataService();
     private RestTemplate restTemplate = mock(RestTemplate.class);
 
     @Before
     public void setUp() throws Exception {
         dataService.setRestTemplate(restTemplate);
+        dataService.setSearchQueryProcessor(searchQueryProcessor);
     }
 
     @Test
@@ -115,5 +118,18 @@ public class TSIEventAPIDataServiceTest {
 
         assertEquals("Teacher should be found", "Laima Krūma", dataService.getTeacherById(referenceData, 1));
         assertEquals("No teacher with id exists", "[id:3]", dataService.getTeacherById(referenceData, 3));
+    }
+
+    @Test
+    public void testGetSearchTermIDs() throws Exception {
+        List<String> searchTerms = Arrays.asList("4102BNL", "55g45", "tUrs");
+        List<ReferenceData> referenceData = Arrays.asList(
+                new ReferenceData(12, "4102bnl"),
+                new ReferenceData(1, "Mockovs Arturs"),
+                new ReferenceData(2, "AR55u45T"),
+                new ReferenceData(10, "002232314")
+        );
+        String searchTermIDs = dataService.getSearchTermIDs(searchTerms, referenceData);
+        assertThat(searchTermIDs, is("1,12"));
     }
 }
