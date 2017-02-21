@@ -107,9 +107,6 @@ public class TSIEventAPIDataService implements DataService {
     }
 
     List<Event> filterEvents(List<Event> events, SearchBean searchBean) {
-
-        //TODO: Something is terribly wrong here :(
-
         Set<String> groupExcludeTerms = searchBean.getExcludeTerms(SearchBean.SearchField.GROUP);
         Set<String> teacherExcludeTerms = searchBean.getExcludeTerms(SearchBean.SearchField.TEACHER);
         Set<String> roomExcludeTerms = searchBean.getExcludeTerms(SearchBean.SearchField.ROOM);
