@@ -91,13 +91,21 @@ public class TSIEventAPIDataService {
         // Prepare query for fetching data
         Map<String, List<ReferenceData>> referenceData = getReferenceData("en", new String[]{PARAM_GROUPS, PARAM_ROOMS, PARAM_TEACHERS});
 
+        Set<String> allSearchTerms = searchBean.getSearchTerms(SearchBean.SearchField.ALL);
+        Set<String> groupSearchTerms = searchBean.getSearchTerms(SearchBean.SearchField.GROUP);
+        Set<String> roomSearchTerms = searchBean.getSearchTerms(SearchBean.SearchField.ROOM);
+        Set<String> teacherSearchTerms = searchBean.getSearchTerms(SearchBean.SearchField.TEACHER);
+        groupSearchTerms.addAll(allSearchTerms);
+        roomSearchTerms.addAll(allSearchTerms);
+        teacherSearchTerms.addAll(allSearchTerms);
+
         Map<String, String> params = new HashMap<>();
         params.put(URL_PARAM_DATE_FROM, String.valueOf(applicationTimeService.getStartOfPreviousMonth()));
         params.put(URL_PARAM_DATE_TO, String.valueOf(applicationTimeService.getStartOfMonthAfterHalfAYear()));
         params.put(URL_PARAM_LANG, lang);
-        params.put(PARAM_GROUPS, getSearchTermIDs(searchBean.getGroupSearchTerms(), referenceData.get(PARAM_GROUPS)));
-        params.put(PARAM_ROOMS, getSearchTermIDs(searchBean.getRoomSearchTerms(), referenceData.get(PARAM_ROOMS)));
-        params.put(PARAM_TEACHERS, getSearchTermIDs(searchBean.getTeacherSearchTerms(), referenceData.get(PARAM_TEACHERS)));
+        params.put(PARAM_GROUPS, getSearchTermIDs(groupSearchTerms, referenceData.get(PARAM_GROUPS)));
+        params.put(PARAM_ROOMS, getSearchTermIDs(roomSearchTerms, referenceData.get(PARAM_ROOMS)));
+        params.put(PARAM_TEACHERS, getSearchTermIDs(teacherSearchTerms, referenceData.get(PARAM_TEACHERS)));
 
         // Query for data
         String responseBody = restTemplate.getForObject(eventURL, String.class, params);
@@ -118,22 +126,22 @@ public class TSIEventAPIDataService {
         return events.stream()
                 .filter(event -> {
                     for (String term : groupExcludeTerms) {
-                        if (event.getGroups().contains(term)) {
+                        if (event.getGroups().toLowerCase().contains(term.toLowerCase())) {
                             return false;
                         }
                     }
                     for (String term : teacherExcludeTerms) {
-                        if (event.getTeacher().contains(term)) {
+                        if (event.getTeacher().toLowerCase().contains(term.toLowerCase())) {
                             return false;
                         }
                     }
                     for (String term : roomExcludeTerms) {
-                        if (event.getRooms().contains(term)) {
+                        if (event.getRooms().toLowerCase().contains(term.toLowerCase())) {
                             return false;
                         }
                     }
                     for (String term : allExcludeTerms) {
-                        if (event.getSummary().contains(term)) {
+                        if (event.getSummary().toLowerCase().contains(term.toLowerCase())) {
                             return false;
                         }
                     }

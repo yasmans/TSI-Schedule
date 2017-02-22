@@ -1,5 +1,7 @@
 package lv.tsi.calendar.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class Event {
@@ -91,6 +93,7 @@ public class Event {
         this.groups = groups;
     }
 
+    @JsonIgnore
     public String getSummary() {
         StringBuilder sb = new StringBuilder();
         if (!getName().isEmpty()) {

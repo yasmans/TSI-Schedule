@@ -17,7 +17,7 @@ public class EventRestController {
     private TSIEventAPIDataService dataService;
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public EventsDTO searchEvents(@RequestParam(value = "q") String searchQuery,
+    public EventsDTO searchEvents(@RequestParam(value = "q", defaultValue = "") String searchQuery,
                                   @RequestParam(value = "lang", defaultValue = "en") String lang) {
         String validationResults = validateLanguage(lang);
         if (!validationResults.isEmpty()) {

@@ -26,6 +26,7 @@ public class SearchQueryProcessor {
         ParseTreeWalker.DEFAULT.walk(listener, searchQueryParser.searchQuery());
         SearchBean searchBean = listener.getSearchBean();
         logger.debug("Parsing Search string '" + searchString + "' resulted in search bean: \n" + searchBean);
+        searchBean.validateSearchBean();
         return searchBean;
     }
 

@@ -1,6 +1,7 @@
 package lv.tsi.calendar.service.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lv.tsi.calendar.exceptions.ParameterValidationException;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +28,18 @@ public class SearchBean {
         excludeTerms.put(SearchField.ROOM, new HashSet<>());
     }
 
+    public void addSearchTerm(SearchField searchField, String searchTerm) {
+        if (searchTerm != null && searchTerm.length() > 2) {
+            searchTerms.get(searchField).add(searchTerm);
+        }
+    }
+
+    public void addExcludeTerm(SearchField searchField, String excludeTerm) {
+        if (excludeTerm != null && excludeTerm.length() > 2) {
+            excludeTerms.get(searchField).add(excludeTerm);
+        }
+    }
+
     public Map<SearchField, Set<String>> getSearchTerms() {
         return searchTerms;
     }
@@ -35,41 +48,24 @@ public class SearchBean {
         return excludeTerms;
     }
 
-    public void addSearchTerm(SearchField searchField, String searchTerm) {
-        searchTerms.get(searchField).add(searchTerm);
-    }
-
-    public void addExcludeTerm(SearchField searchField, String excludeTerm) {
-        excludeTerms.get(searchField).add(excludeTerm);
-    }
-
     @JsonIgnore
-    public Set<String> getGroupSearchTerms() {
-        Set<String> groupSearchTerms = new HashSet<>();
-        groupSearchTerms.addAll(searchTerms.get(SearchField.GROUP));
-        groupSearchTerms.addAll(searchTerms.get(SearchField.ALL));
-        return groupSearchTerms;
-    }
-
-    @JsonIgnore
-    public Set<String> getTeacherSearchTerms() {
-        Set<String> teacherSearchTerms = new HashSet<>();
-        teacherSearchTerms.addAll(searchTerms.get(SearchField.TEACHER));
-        teacherSearchTerms.addAll(searchTerms.get(SearchField.ALL));
-        return teacherSearchTerms;
-    }
-
-    @JsonIgnore
-    public Set<String> getRoomSearchTerms() {
-        Set<String> roomSearchTerms = new HashSet<>();
-        roomSearchTerms.addAll(searchTerms.get(SearchField.ROOM));
-        roomSearchTerms.addAll(searchTerms.get(SearchField.ALL));
-        return roomSearchTerms;
+    public Set<String> getSearchTerms(SearchField searchField) {
+        return searchTerms.get(searchField);
     }
 
     @JsonIgnore
     public Set<String> getExcludeTerms(SearchField searchField) {
         return excludeTerms.get(searchField);
+    }
+
+    public void validateSearchBean() {
+        if (searchTerms.get(SearchField.TEACHER).isEmpty()
+                && searchTerms.get(SearchField.GROUP).isEmpty()
+                && searchTerms.get(SearchField.ROOM).isEmpty()
+                && searchTerms.get(SearchField.ALL).isEmpty()) {
+            throw new ParameterValidationException("You must provide valid search query. Search term must be at least 3 symbols long to be accepted.\n" +
+                    "Example: '/search?q=t:teacher -room:210'");
+        }
     }
 
     @Override
