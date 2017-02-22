@@ -39,16 +39,16 @@ room
 // ------------------- Lexer Grammar -----------------
 
 // Unicode letter or digit
-fragment LetterOrDigitWithSpace
-    : [a-zA-Z0-9_ ]
-    | ~[\u0000-\u007F\uD800-\uDBFF]
-    | [\uD800-\uDBFF] [\uDC00-\uDFFF]
-    ;
 
 fragment LetterOrDigit
     : [a-zA-Z0-9_]
     | ~[\u0000-\u007F\uD800-\uDBFF]
     | [\uD800-\uDBFF] [\uDC00-\uDFFF]
+    ;
+
+fragment LetterOrDigitWithSpace
+    : LetterOrDigit
+    | ' '
     ;
 
 SEARCH_TERM
