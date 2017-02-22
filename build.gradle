@@ -24,12 +24,7 @@ dependencies {
 
   // Spring framework
   compile "org.springframework.boot:spring-boot-starter-web"
-  compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-  compile "org.springframework:spring-beans:4.3.6.RELEASE"
-  compile "org.springframework:spring-context:4.3.6.RELEASE"
   compile "org.springframework:spring-context-support:4.3.6.RELEASE"
-  compile "org.springframework:spring-core:4.3.6.RELEASE"
-  compile "org.springframework:spring-web:4.3.6.RELEASE"
   testCompile "org.springframework.boot:spring-boot-starter-test"
 
   // Google Guava library for Cache implementation
