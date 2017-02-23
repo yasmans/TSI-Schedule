@@ -11,9 +11,9 @@ version '0.0.1'
 buildDir = 'dist'
 
 node {
-  version = '6.5.0'
+  version = '7.5.0'
 
-  npmVersion = '3.10.6'
+  npmVersion = '4.2.0'
   distBaseUrl = 'https://nodejs.org/dist'
   download = true
 }
