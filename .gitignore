@@ -10,7 +10,7 @@ gradle-wrapper.properties
 
 # Generated java sources
 src/main/generated
-/backend/src/main/resources/public/built/
+/backend/src/main/resources/public/built/*
 
 # frontend
 /frontend/node_modules/
