@@ -84,3 +84,12 @@ def getVersionName = { ->
 }
 
 version = getVersionName()
+
+task copyJS(type: Copy) {
+  from '../frontend/dist'
+  into 'src/main/resources/public/built/'
+}
+
+copyJS.dependsOn(':frontend:webpack')
+
+processResources.dependsOn('copyJS')

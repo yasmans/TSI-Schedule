@@ -10,3 +10,11 @@ gradle-wrapper.properties
 
 # Generated java sources
 src/main/generated
+/backend/src/main/resources/public/built/
+
+# frontend
+/frontend/node_modules/
+/frontend/coverage
+/frontend/dist
+/frontend/npm-debug.log
+npm-debug.log
