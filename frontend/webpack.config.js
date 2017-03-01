@@ -14,7 +14,6 @@ module.exports = {
       {
         loaders: ['babel-loader?presets[]=es2015&presets[]=react'],
         test: path.join(__dirname, 'src'),
-        exclude: /(node_modules)/,
       }
     ]
   }

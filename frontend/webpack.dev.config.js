@@ -1,8 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var jeet = require('jeet');
-var nib = require('nib');
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -35,7 +33,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['react-hot-loader/webpack', 'babel'],
         include: path.join(__dirname, 'src')
       }
     ]
