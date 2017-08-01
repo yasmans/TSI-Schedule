@@ -1,6 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin  = require('extract-text-webpack-plugin');
+
+
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -23,7 +26,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'assets/index-template.html')
-    })
+    }),
+    new ExtractTextPlugin('styles.css')
   ],
   resolve: {
     extensions: ['', '.js', ".jsx"],
@@ -35,6 +39,10 @@ module.exports = {
         test: /\.js$/,
         loaders: ['react-hot-loader/webpack', 'babel'],
         include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
       }
     ]
   }

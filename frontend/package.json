@@ -16,6 +16,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "cross-env": "^1.0.7",
     "css-loader": "^0.23.1",
+    "postcss-loader": "^0.10.1",
     "express": "^4.13.4",
     "html-webpack-plugin": "^2.15.0",
     "http-proxy-middleware": "^0.13.0",
@@ -24,11 +25,13 @@
     "react-hot-loader": "^3.0.0-beta.6",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "webpack-hot-middleware": "^2.10.0",
+    "style-loader": "^0.13.1",
+    "extract-text-webpack-plugin": "^1.0.1"
   },
   "dependencies": {
-    "react": "^15.0.0",
-    "react-bootstrap": "^0.30.7",
-    "react-dom": "^15.0.0"
+    "react": "^15.4.2",
+    "react-bootstrap": "^0.30.8",
+    "react-dom": "^15.4.2"
   }
 }

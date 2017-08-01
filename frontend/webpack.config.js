@@ -14,6 +14,10 @@ module.exports = {
       {
         loaders: ['babel-loader?presets[]=es2015&presets[]=react'],
         test: path.join(__dirname, 'src'),
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
       }
     ]
   }
